@@ -5,15 +5,22 @@ import bcrypt from 'bcrypt';
 
 export default {
     async register(userData){
-        const user = await User.findOne({email: userData.email});
+        const user = await User.findOne({ $or: [{email: userData.email}, {username: userData.username}]});
 
         if(user){
-            throw new Error('User already exists!');
+            if(user.email === userData.email){
+                throw new Error('Email already in use!');
+            };
+            if(user.username === userData.username){
+                throw new Error('Username already in use!');
+            }
+            
         };
 
         if(userData.password !== userData.rePassword){
             throw new Error('Password mismatch!');
          }
+
 
         const createdUser = await User.create(userData);
 

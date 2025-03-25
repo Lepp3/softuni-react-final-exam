@@ -3,14 +3,12 @@ import Camera from "../models/Camera.js";
 
 export default {
     async getAll(){
-        return Camera.getAll().lean();
+        return Camera.findAll().lean();
     },
     async getOneCamera(cameraId){
         return Camera.findOne({id: cameraId})
     },
     async createCamera(cameraData,userId){
-        
-
         return Camera.create({...cameraData,ownerId: userId});
     },
     async updateCamera(cameraId,cameraData){

@@ -11,7 +11,7 @@ const routes = Router();
 
 routes.use('/users', userController);
 
-routes.use('/data', cameraController)
+routes.use('/cameras', cameraController)
 
 
 

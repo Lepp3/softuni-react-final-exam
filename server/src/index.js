@@ -8,7 +8,7 @@ const app = express();
 
 //connect DB
 try{
-    const uri = 'mongodb://localhost:27017/cameras';
+    const uri = 'mongodb://localhost:27017/camera-shop';
     await mongoose.connect(uri);
     console.log('Successfuly connected to DB!')
 }catch(err){

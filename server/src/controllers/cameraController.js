@@ -7,12 +7,20 @@ const cameraController = Router();
 
 
 //get all
-cameraController.get('/catalog', async (req,res)=>{
-    res.json({message:'It works!'})
+cameraController.get('/', async (req,res)=>{
+    const cameras = await cameraService.getAll();
+
+
+    res.json(cameras);
 });
 
 //get one
-cameraController.get('/:cameraId')
+cameraController.get('/:cameraId', async (req,res)=>{
+    const cameraId = req.params.cameraId;
+    const camera = await cameraService.getOneCamera(cameraId);
+
+    res.json(camera);
+})
 
 //create
 cameraController.post('/create', isAuth ,async (req,res)=>{

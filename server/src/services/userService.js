@@ -18,7 +18,13 @@ export default {
 
         const token = generateToken(createdUser);
 
-        return token
+        const result = {
+            email: userData.email,
+            authToken: token,
+            userId: user._id
+        }
+
+        return result
     },
 
      async login(email,password){
@@ -38,6 +44,12 @@ export default {
 
         const token = generateToken(user);
 
-        return token;
+        const result = {
+            email,
+            authToken: token,
+            userId: user._id
+        }
+
+        return result;
      }
 }

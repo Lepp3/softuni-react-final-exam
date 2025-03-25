@@ -25,11 +25,12 @@ userController.post('/register', async (req,res)=>{
 
 
 userController.post('/login', async(req,res)=>{
-    const {email, password} = req.body;
+    const {email: userEmail, password} = req.body;
 
     try{
-        const loggedUser = await userService.login(email,password);
-        res.status(201).json({loggedUser})
+        const loggedUser = await userService.login(userEmail,password);
+        const {email,authToken,userId} = loggedUser;
+        res.status(201).json({email,authToken,userId})
     }catch(err){
         res.status(401).json({error: `${err.message}`})
     }

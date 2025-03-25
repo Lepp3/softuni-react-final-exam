@@ -1,21 +1,17 @@
 import { Router } from "express"
 import userController from "./controllers/userController.js";
+import cameraController from "./controllers/cameraController.js";
 
 
 const routes = Router();
 
 
-routes.get('/', (req,res)=>{
-    res.json({message:'It works!'})
-});
 
 
-routes.get('/data/catalog', (req,res)=>{
-    res.json({message: 'THIS IS THE CATALOG'})
-})
 
+routes.use('/users', userController);
 
-routes.use('/users', userController)
+routes.use('/data', cameraController)
 
 
 

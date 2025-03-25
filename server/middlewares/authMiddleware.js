@@ -27,3 +27,12 @@ export const auth = async (req,res,next) =>{
 
     next()
 }
+
+
+export const isAuth = (req,res,next) =>{
+    if(!req.user){
+        return res.end()
+    }
+
+    next()
+}

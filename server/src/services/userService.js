@@ -20,9 +20,9 @@ export default {
         const token = generateToken(createdUser);
 
         const result = {
-            email: userData.email,
+            email: createdUser.email,
             authToken: token,
-            userId: user._id
+            userId: createdUser._id
         }
 
         return result
@@ -46,7 +46,7 @@ export default {
         const token = generateToken(user);
 
         const result = {
-            email,
+            email: user.email,
             authToken: token,
             userId: user._id
         }
@@ -63,7 +63,10 @@ export default {
         return user
      },
      async updateUser(userId,userData){
-        return await User.findOneAndUpdate(userId,userData,{runValidators: true});
+        return await User.findOneAndUpdate(
+            {_id: userId},
+            userData,
+            {new:true, runValidators: true});
         
      }
 }

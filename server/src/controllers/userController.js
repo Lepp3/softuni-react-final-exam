@@ -40,7 +40,14 @@ userController.post('/login', async(req,res)=>{
 userController.get('/logout', async (req,res)=>{
     const token = req.headers['x-authorization'];
 
-    await userService.invalidateToken(token);
+    try{
+        await userService.invalidateToken(token);
+
+        res.status(200).json('Logout successful!');
+    }catch(err){
+        res.status(500).json("Logout failed!");
+    }
+    
 });
 
 userController.get('/:userId', async (req,res)=>{
@@ -48,6 +55,9 @@ userController.get('/:userId', async (req,res)=>{
 
     try{
         const user = await userService.getOneUser(userId);
+        if(!user){
+            throw new Error('User not found');
+        }
         res.status(200).json(user)
     }catch(err){
         res.status(404).json('No user found');
@@ -61,6 +71,9 @@ userController.put('/:userId', async (req,res)=>{
 
     try{
         const updatedUser = await userService.updateUser(userId,userData);
+        if(!updatedUser){
+            throw new Error('User not found!');
+        }
         res.status(200).json(updatedUser);
     }catch(err){
         res.status(404).json('Failed to update user', err.message);

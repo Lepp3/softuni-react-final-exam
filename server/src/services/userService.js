@@ -1,7 +1,43 @@
-import User from "../models/User.js"
+import { generateToken } from "../../utils/tokenUtils.js";
+import User from "../models/User.js";
+import bcrypt from 'bcrypt';
 
 export default {
-    register(userData){
-       return  User.create(userData);
-    }
+    async register(userData){
+        const user = await User.findOne({email: userData.email});
+
+        if(user){
+            throw new Error('User already exists!');
+        };
+
+        if(userData.password !== userData.rePassword){
+            throw new Error('Password mismatch!');
+         }
+
+        const createdUser = await User.create(userData);
+
+        const token = generateToken(createdUser);
+
+        return token
+    },
+
+     async login(email,password){
+        const user = await User.findOne({email});
+
+       
+
+        if(!user){
+            throw new Error('Email or password are incorrect!');
+        }
+
+        const isValid = await bcrypt.compare(password, user.password);
+
+        if(!isValid){
+            throw new Error('Email or password are incorrect!');
+        }
+
+        const token = generateToken(user);
+
+        return token;
+     }
 }

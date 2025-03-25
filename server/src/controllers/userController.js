@@ -1,6 +1,7 @@
 import {Router} from 'express';
 import userService from '../services/userService.js';
-import User from '../models/User.js';
+
+
 
 
 const userController = Router();
@@ -8,22 +9,30 @@ const userController = Router();
 
 userController.post('/register', async (req,res)=>{
 
-    const user = await User.findOne({email: userData.email});
-
-    if(user){
-        throw new Error('Email already in use!');
-    };
-
-
-    if(userData.password !== userData.rePassword){
-        throw new Error('Passwords missmatch!');
-    }
-
     const userData = req.body;
-   
-    const createdUser = await userService.register(userData);
 
-    res.json({createdUser});
+    try{
+        const createdUser = await userService.register(userData);
+        res.status(201).json({createdUser});
+    }catch(err){
+        console.log(err.message);
+        res.status(409).json({error: `${err.message}`});
+    }
+    
+
+    
+});
+
+
+userController.post('/login', async(req,res)=>{
+    const {email, password} = req.body;
+
+    try{
+        const loggedUser = await userService.login(email,password);
+        res.status(201).json({loggedUser})
+    }catch(err){
+        res.status(401).json({error: `${err.message}`})
+    }
 })
 
 

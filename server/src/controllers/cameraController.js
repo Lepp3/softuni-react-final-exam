@@ -17,9 +17,17 @@ cameraController.get('/', async (req,res)=>{
 //get one
 cameraController.get('/:cameraId', async (req,res)=>{
     const cameraId = req.params.cameraId;
-    const camera = await cameraService.getOneCamera(cameraId);
 
-    res.json(camera);
+    try{
+        const camera = await cameraService.getOneCamera(cameraId);
+        if(!camera){
+            throw new Error('No record found!');
+        }
+        res.json(camera);
+    }catch(err){
+        res.status(404).json('Nothing found!');
+    }
+    
 })
 
 //create

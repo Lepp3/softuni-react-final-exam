@@ -34,6 +34,13 @@ userController.post('/login', async(req,res)=>{
     }catch(err){
         res.status(401).json({error: `${err.message}`})
     }
+});
+
+
+userController.get('/logout', async (req,res)=>{
+    const token = req.headers['x-authorization'];
+
+    await userService.invalidateToken(token);
 })
 
 

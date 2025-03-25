@@ -1,4 +1,5 @@
 import { generateToken } from "../../utils/tokenUtils.js";
+import InvalidToken from "../models/invalidToken.js";
 import User from "../models/User.js";
 import bcrypt from 'bcrypt';
 
@@ -51,5 +52,9 @@ export default {
         }
 
         return result;
+     },
+
+     invalidateToken(token){
+        return InvalidToken.create({token})
      }
 }

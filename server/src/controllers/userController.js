@@ -41,6 +41,30 @@ userController.get('/logout', async (req,res)=>{
     const token = req.headers['x-authorization'];
 
     await userService.invalidateToken(token);
+});
+
+userController.get('/:userId', async (req,res)=>{
+    const userId = req.params.userId;
+
+    try{
+        const user = await userService.getOneUser(userId);
+        res.status(200).json(user)
+    }catch(err){
+        res.status(404).json('No user found');
+    }
+    
+})
+
+userController.put('/:userId', async (req,res)=>{
+    const userId = req.params.userId;
+    const userData = req.body;
+
+    try{
+        const updatedUser = await userService.updateUser(userId,userData);
+        res.status(200).json(updatedUser);
+    }catch(err){
+        res.status(404).json('Failed to update user', err.message);
+    }
 })
 
 

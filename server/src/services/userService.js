@@ -56,5 +56,14 @@ export default {
 
      invalidateToken(token){
         return InvalidToken.create({token})
+     },
+     async getOneUser(userId){
+        const user = await User.findOne({_id: userId});
+
+        return user
+     },
+     async updateUser(userId,userData){
+        return await User.findOneAndUpdate(userId,userData,{runValidators: true});
+        
      }
 }

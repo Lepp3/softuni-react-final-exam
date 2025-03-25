@@ -1,9 +1,12 @@
 import express from 'express';
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
+import cors from 'cors';
+import routes from './routes.js';
 
+// initialize app
+const app = express();
 
-
-
+//connect DB
 try{
     const uri = 'mongodb://localhost:27017/cameras';
     await mongoose.connect(uri);
@@ -14,25 +17,16 @@ try{
 }
 
 
+
+app.use(express.json());
 // setup CORS
+app.use(cors());
 
-app.use((req,res,next)=>{
-    res.header('Access-Control-Allow-Origin', "*");
-})
-
+app.use(routes)
 
 
-const app = express();
 
 
-app.get('/', (req,res)=>{
-    res.json({message:'It works!'})
-});
-
-
-app.get('/data/catalog', (req,req)=>{
-    res.jason({message: 'THIS IS THE CATALOG'})
-})
 
 
 app.listen(3030,()=>console.log('restful server running on http://localhost:3030...'))

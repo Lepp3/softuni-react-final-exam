@@ -5,6 +5,7 @@ import Header from './components/header/Header'
 import Home from './components/homePage/Home'
 import Login from './components/login/Login'
 import Register from './components/register/Register'
+import Footer from './components/footer/Footer'
 
 function App() {
   
@@ -24,6 +25,7 @@ function App() {
       <Route path='/cameras/create'/>
     </Routes>
     </main>
+    <Footer/>
     </>
   )
 }

@@ -36,9 +36,16 @@ cameraController.post('/create', isAuth ,async (req,res)=>{
     const cameraData = req.body;
     const userId = req.user.id;
 
-    const createdCamera = await cameraService.createCamera(cameraData,userId);
-
-    res.status(201).json(createdCamera)
+    try{
+        const createdCamera = await cameraService.createCamera(cameraData,userId);
+        if(!createdCamera){
+            throw new Error('Failed to create camera!');
+        }
+        res.status(201).json(createdCamera)
+    }catch(err){
+        res.status(500).json('Creation unsuccessful!');
+    }
+    
 
 })
 
@@ -53,7 +60,17 @@ cameraController.put('/:cameraId/edit', async(req,res)=>{
 
 //delete one
 cameraController.delete('/:cameraId/delete', async(req,res)=>{
+    const cameraId = req.params.cameraId;
 
+    try{
+        const successfullDeletion = await cameraService.deleteCamera(cameraId);
+        if(!successfullDeletion){
+            throw new Error('Deletion incomplete!');
+        };
+        res.status(200).json('Successfully deleted record ', successfullDeletion._id);
+    }catch(err){
+        res.status(500).json('Deletion incomplete!');
+    }
 })
 
 

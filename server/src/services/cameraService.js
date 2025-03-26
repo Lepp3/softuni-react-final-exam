@@ -15,5 +15,8 @@ export default {
         const camera = await this.getOneCamera(cameraId);
 
         return Camera.findByIdAndUpdate(cameraId,cameraData)
+    },
+    async deleteCamera(cameraId){
+        return Camera.findByIdAndDelete(cameraId);
     }
 }

@@ -4,19 +4,19 @@ export default function Header(){
     //TODO AUTHENTICATION FOR DYNAMIC RENDER OF BUTTONS
     return(
         <header>
-            <h1><Link>CameraWorld</Link></h1>
+            <h1><Link to="/">CameraWorld</Link></h1>
             <nav>
-            <Link>Home</Link>
-            <Link>Cameras</Link>
-            <Link>About</Link>
+            <Link to="/">Home</Link>
+            <Link to="/cameras">Cameras</Link>
+            <Link to="/about">About</Link>
             <div id="guest">
-            <Link>Login</Link>
-            <Link>Register</Link>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
             </div>
             <div id="user">
-            <Link>Post a camera</Link>
-            <Link>Logout</Link>
-            <Link>Profile Page</Link>
+            <Link to="/cameras/create">Post a camera</Link>
+            <Link to="/logout">Logout</Link>
+            <Link to="/user/userId">Profile Page</Link>
             </div>
             </nav>
         </header>

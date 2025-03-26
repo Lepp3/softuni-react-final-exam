@@ -6,6 +6,7 @@ import Home from './components/homePage/Home'
 import Login from './components/login/Login'
 import Register from './components/register/Register'
 import Footer from './components/footer/Footer'
+import Catalog from './components/catalog/Catalog'
 
 function App() {
   
@@ -19,7 +20,7 @@ function App() {
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>
       <Route path='/logout'/>
-      <Route path='/cameras' />
+      <Route path='/cameras' element={<Catalog/>}/>
       <Route path='/cameras/:cameraId/details'/>
       <Route path='/cameras/:cameraId/edit'/>
       <Route path='/cameras/create'/>

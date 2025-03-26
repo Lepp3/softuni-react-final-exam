@@ -4,6 +4,7 @@ import './App.css'
 import Header from './components/header/Header'
 import Home from './components/homePage/Home'
 import Login from './components/login/Login'
+import Register from './components/register/Register'
 
 function App() {
   
@@ -15,7 +16,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path='/login' element={<Login/>}/>
-      <Route path='/register'/>
+      <Route path='/register' element={<Register/>}/>
       <Route path='/logout'/>
       <Route path='/cameras' />
       <Route path='/cameras/:cameraId/details'/>

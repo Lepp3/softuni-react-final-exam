@@ -2,8 +2,13 @@ import Camera from "../models/Camera.js";
 
 
 export default {
-    async getAll(){
-        return Camera.findAll().lean();
+    async getAll(query={}){
+        const cameras = Camera.findAll();
+
+        if(query.name){
+            cameras.find({ name: { $regex: query.name, options: 'i' } })
+        }
+        return cameras
     },
     async getOneCamera(cameraId){
         return Camera.findOne({id: cameraId})
@@ -12,11 +17,15 @@ export default {
         return Camera.create({...cameraData,ownerId: userId});
     },
     async updateCamera(cameraId,cameraData){
-        const camera = await this.getOneCamera(cameraId);
+        
 
         return Camera.findByIdAndUpdate(cameraId,cameraData)
     },
     async deleteCamera(cameraId){
         return Camera.findByIdAndDelete(cameraId);
+    },
+    getCreatedCameras(userId){
+        return Camera.find({ownerId: userId});
     }
+
 }

@@ -6,12 +6,30 @@ import { isAuth } from "../../middlewares/authMiddleware.js";
 const cameraController = Router();
 
 
+// function buildFilter(query){
+//     const filterResult = Object.keys(query).reduce((filter, filterParam)=>{
+//         //replace double quotes
+//         const filterParamValue = query[filterParam].replaceAll('"', '')
+//         const searchParam = new URLSearchParams(query[filterParamValue]);
+//         const result = {...filter,...Object.fromEntries(searchParam.entries())}
+
+//         return result
+//     },{});
+
+//     return filterResult
+// }
+
 //get all
 cameraController.get('/', async (req,res)=>{
-    const cameras = await cameraService.getAll();
-
-
-    res.json(cameras);
+    const query = req.query;
+    let cameras;
+    if(query){
+        cameras = await cameraService.getAll(query).lean();
+    }else{
+        cameras = await cameraService.getAll().lean();
+    }
+    
+    res.status(200).json(cameras);
 });
 
 //get one
@@ -55,7 +73,18 @@ cameraController.get('/create', async (req,res)=>{
 
 //edit one
 cameraController.put('/:cameraId/edit', async(req,res)=>{
+    const cameraId = req.params.cameraId;
+    const cameraInfo = req.body;
 
+    try{
+        const updatedCamera = await cameraService.updateCamera(cameraId,cameraInfo);
+        if(!updatedCamera){
+            throw new Errror('Update failed')
+        }
+        res.status(200).json(updatedCamera)
+    }catch(err){
+        res.status(500).json('Update failed')
+    }
 });
 
 //delete one

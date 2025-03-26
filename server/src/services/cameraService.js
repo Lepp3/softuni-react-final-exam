@@ -3,11 +3,11 @@ import Camera from "../models/Camera.js";
 
 export default {
     async getAll(query={}){
-        const cameras = Camera.findAll();
+        const cameras = Camera.findAll(query);
 
-        if(query.name){
-            cameras.find({ name: { $regex: query.name, options: 'i' } })
-        }
+        // if(query.name){
+        //     cameras.find({ name: { $regex: query.name, options: 'i' } })
+        // }
         return cameras
     },
     async getOneCamera(cameraId){

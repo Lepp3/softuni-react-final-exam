@@ -6,28 +6,24 @@ import { isAuth } from "../../middlewares/authMiddleware.js";
 const cameraController = Router();
 
 
-// function buildFilter(query){
-//     const filterResult = Object.keys(query).reduce((filter, filterParam)=>{
-//         //replace double quotes
-//         const filterParamValue = query[filterParam].replaceAll('"', '')
-//         const searchParam = new URLSearchParams(query[filterParamValue]);
-//         const result = {...filter,...Object.fromEntries(searchParam.entries())}
+function buildFilter(query){
+    const filterResult = Object.keys(query).reduce((filter, filterParam)=>{
+        //replace double quotes
+        const filterParamValue = query[filterParam].replaceAll('"', '')
+        const searchParam = new URLSearchParams(query[filterParamValue]);
+        const result = {...filter,...Object.fromEntries(searchParam.entries())}
 
-//         return result
-//     },{});
+        return result
+    },{});
 
-//     return filterResult
-// }
+    return filterResult
+}
 
 //get all
 cameraController.get('/', async (req,res)=>{
-    const query = req.query;
-    let cameras;
-    if(query){
-        cameras = await cameraService.getAll(query).lean();
-    }else{
-        cameras = await cameraService.getAll().lean();
-    }
+    const filter = buildFilter(req.query);
+
+    const cameras = await cameraService.getAll(filter)
     
     res.status(200).json(cameras);
 });

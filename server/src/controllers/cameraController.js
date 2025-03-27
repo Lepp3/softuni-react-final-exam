@@ -57,7 +57,7 @@ cameraController.post('/create', isAuth ,async (req,res)=>{
         }
         res.status(201).json(createdCamera)
     }catch(err){
-        res.status(500).json('Creation unsuccessful!');
+        res.status(500).json({error: err.message});
     }
     
 

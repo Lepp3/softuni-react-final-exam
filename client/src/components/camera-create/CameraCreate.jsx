@@ -1,7 +1,20 @@
+import cameraService from "../../services/cameraService";
+
 export default function CameraCreate(){
+
+    const createHandler = async (formData) =>{
+        const data = Object.fromEntries(formData);
+
+        const result = await cameraService.createCamera(data);
+
+        console.log(data)
+        console.log('_________________________________')
+        console.log(result)
+    }
+
     return(
         <div>
-            <form>
+            <form action={createHandler}>
                 <h1>Post a camera</h1>
 
                 <label htmlFor="make">Make:</label>

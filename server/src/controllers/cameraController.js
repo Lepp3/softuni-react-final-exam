@@ -23,7 +23,7 @@ function buildFilter(query){
 cameraController.get('/', async (req,res)=>{
     const filter = buildFilter(req.query);
 
-    const cameras = await cameraService.getAll()
+    const cameras = await cameraService.getAll(filter)
     
     res.status(200).json(cameras);
 });

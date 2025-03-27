@@ -9,29 +9,13 @@ export default {
 
         return requester.post(`${baseUrl}/create`, cameraData)
     },
-    async getAll(){
-        const response = await fetch(baseUrl)
-        const result = await response.json();
-
-        return result
+    getAll(){
+        return requester.get(baseUrl)
     },
-    async getOne(cameraId){
-        const response = await fetch(`${baseUrl}/${cameraId}`);
-        const result = await response.json();
-
-        return result
+    getOne(cameraId){
+        return requester.get(`${baseUrl}/${cameraId}`);
     },
-    async editCamera(cameraData,cameraId){
-        const response = await fetch(`${baseUrl}/${cameraId}/edit`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(cameraData)
-        });
-
-        const result = await response.json();
-
-        return result;
+    editCamera(cameraData,cameraId){
+        return requester.put(`${baseUrl}/${cameraId}/edit`,cameraData);
     }
 }

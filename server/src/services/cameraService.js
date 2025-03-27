@@ -19,7 +19,7 @@ export default {
     async updateCamera(cameraId,cameraData){
         
 
-        return Camera.findByIdAndUpdate(cameraId,cameraData)
+        return Camera.findByIdAndUpdate(cameraId,cameraData, {new: true})
     },
     async deleteCamera(cameraId){
         return Camera.findByIdAndDelete(cameraId);

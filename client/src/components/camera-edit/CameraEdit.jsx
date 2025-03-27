@@ -12,7 +12,9 @@ export default function CameraEdit(){
 
     useEffect(()=>{
         cameraService.getOne(cameraId)
-        .then(setCamera)
+        .then(result=>{
+            setCamera(result)
+        })
     },[cameraId])
 
     const editHandler = async (formData) =>{
@@ -50,7 +52,7 @@ export default function CameraEdit(){
                 <label htmlFor="description">Description:</label>
                 <input type="text" id="description" name="description" defaultValue={camera.description} />
 
-                <input type="submit" className="btn submit" value="Create" />
+                <input type="submit" className="btn submit" value="Edit" />
 
             </form>
         </div>

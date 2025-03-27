@@ -1,22 +1,22 @@
+import { useEffect, useState } from 'react'
 import {Link} from 'react-router'
+import cameraService from '../../services/cameraService';
+import CatalogItem from './CatalogItem';
 
 export default function Catalog(){
+
+    const [cameras,setCameras] = useState([]);
+    
+    useEffect(()=>{
+        cameraService.getAll()
+        .then(setCameras)
+    },[])
     return(
         <section>
-            The catalog will be here and it will contain catalogItemComponents
+            <h1>Cameras</h1>
+            {cameras.length !== 0 ? cameras.map(camera=> <CatalogItem key={camera._id} {...camera} /> ) : <h3>No Cameras yet!</h3>}
             
-            <ul>
-                <li>
-                    <div>
-                    <img src="???" alt="Camera Image"/>
-                    <h2>Camera Name</h2>
-                    <p>Camera Price</p>
-                    <p>Number of likes</p>
-                    <p>Potential number of comments</p>
-                    <Link to={`/cameras/cameraId/details`}>Details</Link>
-                    </div>
-                </li>
-            </ul>
+           
             
         </section>
     )

@@ -17,9 +17,9 @@ export default {
             
         };
 
-        if(userData.password !== userData.rePassword){
-            throw new Error('Password mismatch!');
-         }
+        // if(userData.password !== userData.rePassword){
+        //     throw new Error('Password mismatch!');
+        //  }
 
 
         const createdUser = await User.create(userData);

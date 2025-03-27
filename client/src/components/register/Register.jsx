@@ -1,12 +1,34 @@
 import {Link} from 'react-router'
+import authService from '../../services/authService';
 
 export default function Register(){
+
+    const submitAction = async (formData) =>{
+        const data = Object.fromEntries(formData);
+        
+        if(data.password !== data.rePassword){
+            return;
+        }
+
+        const email = data.email;
+        const username = data.username;
+        const password = data.password;
+
+        const result = await authService.register({email,username,password});
+
+        console.log(result);
+        
+    }
+
     return(
         <section>
-            <form id="login">
+            <form id="login" action={submitAction}>
             <h1>Register</h1>
             <label htmlFor="email">Email:</label>
             <input type="email" id="email" name="email" />
+
+            <label htmlFor="username">Username:</label>
+            <input type="username" id="username" name="username" />
 
             <label htmlFor="password">Password:</label>
             <input type="password" id="password" name="password" />
@@ -14,11 +36,7 @@ export default function Register(){
             <label htmlFor="rePassword">Repeat password:</label>
             <input type="password" id="rePassword" name="rePassword" />
 
-            <label htmlFor="imageUrl">Profile picture url:</label>
-            <input type="text" id="imageUrl" name="imageUrl" />
-
-            <label htmlFor="bio">Profile picture url:</label>
-            <input type="text" id="bio" name="bio" />
+            
 
             <input type="submit" className="btn submit" value="Register" />
             <div className="afterField">

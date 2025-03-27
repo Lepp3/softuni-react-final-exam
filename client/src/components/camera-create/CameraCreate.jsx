@@ -7,8 +7,6 @@ export default function CameraCreate(){
 
         const result = await cameraService.createCamera(data);
 
-        console.log(data)
-        console.log('_________________________________')
         console.log(result)
     }
 

@@ -1,19 +1,13 @@
+import requester from "../utils/requester";
+
+
 const baseUrl = 'http://localhost:3030/cameras'
 
 
 export default {
-    async createCamera(cameraData){
-        const response = await fetch(`${baseUrl}/create`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(cameraData)
-        });
+     createCamera(cameraData){
 
-        const result = await response.json();
-
-        return result;
+        return requester.post(`${baseUrl}/create`, cameraData)
     },
     async getAll(){
         const response = await fetch(baseUrl)

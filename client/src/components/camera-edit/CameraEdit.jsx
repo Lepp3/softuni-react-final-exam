@@ -13,7 +13,7 @@ export default function CameraEdit(){
     useEffect(()=>{
         cameraService.getOne(cameraId)
         .then(setCamera)
-    },[])
+    },[cameraId])
 
     const editHandler = async (formData) =>{
         const data = Object.fromEntries(formData);

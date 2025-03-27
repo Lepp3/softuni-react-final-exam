@@ -17,5 +17,8 @@ export default {
     },
     editCamera(cameraData,cameraId){
         return requester.put(`${baseUrl}/${cameraId}/edit`,cameraData);
+    },
+    deleteCamera(cameraId){
+        return requester.delete(`${baseUrl}/${cameraId}`);
     }
 }

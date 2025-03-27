@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from 'react-router'
+import { useParams, useNavigate } from 'react-router'
 import cameraService from "../../services/cameraService";
 
 export default function CameraEdit(){
 
     const {cameraId} = useParams()
 
-    console.log(cameraId);
+    const navigate = useNavigate();
+    
     const [camera,setCamera] = useState({});
 
 
@@ -23,7 +24,7 @@ export default function CameraEdit(){
         const result = await cameraService.editCamera(data,cameraId);
 
     
-        console.log(result)
+        navigate(`/cameras/${cameraId}/details`);
     }
 
     return(

@@ -22,7 +22,8 @@ export default {
         return Camera.findByIdAndUpdate(cameraId,cameraData, {new: true})
     },
     async deleteCamera(cameraId){
-        return Camera.findByIdAndDelete(cameraId);
+        
+        return await Camera.findByIdAndDelete(cameraId);
     },
     getCreatedCameras(userId){
         return Camera.find({ownerId: userId});

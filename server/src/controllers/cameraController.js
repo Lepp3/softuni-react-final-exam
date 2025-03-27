@@ -84,7 +84,7 @@ cameraController.put('/:cameraId/edit', async(req,res)=>{
 });
 
 //delete one
-cameraController.delete('/:cameraId/delete', async(req,res)=>{
+cameraController.delete('/:cameraId', async(req,res)=>{
     const cameraId = req.params.cameraId;
 
     try{
@@ -92,9 +92,9 @@ cameraController.delete('/:cameraId/delete', async(req,res)=>{
         if(!successfullDeletion){
             throw new Error('Deletion incomplete!');
         };
-        res.status(200).json('Successfully deleted record ', successfullDeletion._id);
+        res.status(200).json(successfullDeletion._id);
     }catch(err){
-        res.status(500).json('Deletion incomplete!');
+        res.status(500).json(err.message);
     }
 })
 

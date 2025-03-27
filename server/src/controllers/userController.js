@@ -16,7 +16,7 @@ userController.post('/register', async (req,res)=>{
         res.status(201).json({createdUser});
     }catch(err){
         console.log(err.message);
-        res.status(409).json({error: `${err.message}`});
+        res.status(409).json({error: err.message});
     }
     
 
@@ -32,7 +32,7 @@ userController.post('/login', async(req,res)=>{
         const {email,authToken,userId} = loggedUser;
         res.status(201).json({email,authToken,userId})
     }catch(err){
-        res.status(401).json({error: `${err.message}`})
+        res.status(401).json({error: err.message})
     }
 });
 

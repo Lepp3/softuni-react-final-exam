@@ -8,6 +8,7 @@ import Register from './components/register/Register'
 import Footer from './components/footer/Footer'
 import Catalog from './components/catalog/Catalog'
 import ProfilePage from './components/profile-page/ProfilePage'
+import CameraCreate from './components/camera-create/CameraCreate'
 
 function App() {
   
@@ -25,7 +26,7 @@ function App() {
       <Route path='/cameras' element={<Catalog/>}/>
       <Route path='/cameras/:cameraId/details'/>
       <Route path='/cameras/:cameraId/edit'/>
-      <Route path='/cameras/create'/>
+      <Route path='/cameras/create' element={<CameraCreate/>}/>
     </Routes>
     </main>
     <Footer/>

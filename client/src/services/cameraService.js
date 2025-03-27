@@ -14,5 +14,30 @@ export default {
         const result = await response.json();
 
         return result;
+    },
+    async getAll(){
+        const response = await fetch(baseUrl)
+        const result = await response.json();
+
+        return result
+    },
+    async getOne(cameraId){
+        const response = await fetch(`${baseUrl}/${cameraId}`);
+        const result = await response.json();
+
+        return result
+    },
+    async editCamera(cameraData,cameraId){
+        const response = await fetch(`${baseUrl}/${cameraId}/edit`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(cameraData)
+        });
+
+        const result = await response.json();
+
+        return result;
     }
 }

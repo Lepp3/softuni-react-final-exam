@@ -9,6 +9,7 @@ import Footer from './components/footer/Footer'
 import Catalog from './components/catalog/Catalog'
 import ProfilePage from './components/profile-page/ProfilePage'
 import CameraCreate from './components/camera-create/CameraCreate'
+import CameraEdit from './components/camera-edit/CameraEdit'
 
 function App() {
   
@@ -25,7 +26,7 @@ function App() {
       <Route path='/logout'/>
       <Route path='/cameras' element={<Catalog/>}/>
       <Route path='/cameras/:cameraId/details'/>
-      <Route path='/cameras/:cameraId/edit'/>
+      <Route path='/cameras/:cameraId/edit'element={<CameraEdit/>}/>
       <Route path='/cameras/create' element={<CameraCreate/>}/>
     </Routes>
     </main>

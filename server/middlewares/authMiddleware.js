@@ -31,7 +31,7 @@ export const auth = async (req,res,next) =>{
 
 export const isAuth = (req,res,next) =>{
 
-    const fakeUserId = '67e50a7561d0912af034ef31';
+    const fakeUserId = '67e550383c99fabcab662784';
 
     if(!req.user){
         req.user = {id: fakeUserId};

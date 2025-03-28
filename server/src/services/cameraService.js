@@ -27,6 +27,13 @@ export default {
     },
     getCreatedCameras(userId){
         return Camera.find({ownerId: userId});
+    },
+    async likeCamera(cameraId,userId){
+        const camera = await Camera.findById(cameraId);
+        //todo implement self-like defense
+        //todo implement doulb-elike by id defense
+        camera.likedBy.push(userId);
+        return camera.save();
     }
 
 }

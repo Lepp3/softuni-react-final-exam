@@ -96,6 +96,22 @@ cameraController.delete('/:cameraId', async(req,res)=>{
     }catch(err){
         res.status(500).json(err.message);
     }
+});
+
+
+cameraController.post('/:cameraId/like', async (req,res)=>{
+    const cameraId = req.params.cameraId;
+    const userId = req.user?.id;
+
+    try{
+        const likeInfo = await cameraService.likeCamera(cameraId,userId);
+        if(!likeInfo){
+            throw new Error('Failed to like.')
+        }
+        res.status(200).json(likeInfo);
+    }catch(err){
+        res.status(500).json(err.message);
+    }
 })
 
 

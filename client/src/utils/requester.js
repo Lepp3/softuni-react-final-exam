@@ -20,6 +20,12 @@ const request = async (method,url,data,options = {}) =>{
         }
 
         const response = await fetch(url,options);
+
+        if(!response.ok){
+            const errorData = await response.json();
+            throw new Error(errorData.error);
+        }
+        
         const result = await response.json();
 
         return result;

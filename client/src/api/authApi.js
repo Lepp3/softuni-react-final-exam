@@ -31,4 +31,30 @@ export const useLogin = () =>{
     return{
         login
     }
+};
+
+
+export const useRegister = () =>{
+    const abortRef = useRef();
+
+    const register = async (userData) =>{
+        const authData = await requester.post(
+            `${baseUrl}/register`,
+            userData,
+            {signal:abortRef.current.signal});
+
+            return authData
+    }
+
+    useEffect(()=>{
+        const abortController = new AbortController();
+
+        abortRef.current = abortController;
+
+        return ()=>abortController.abort();
+    },[])
+
+    return{
+        register
+    }
 }

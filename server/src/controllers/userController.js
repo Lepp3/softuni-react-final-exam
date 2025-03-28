@@ -7,16 +7,18 @@ import userService from '../services/userService.js';
 const userController = Router();
 
 
-userController.post('/register', async (req,res)=>{
+userController.post('/register', async (req,res,next)=>{
 
     const userData = req.body;
+    
 
     try{
         const createdUser = await userService.register(userData);
         res.status(201).json({createdUser});
     }catch(err){
-        console.log(err.message);
-        res.status(409).json({error: err.message});
+        console.error(err.message);
+        res.status(409);
+        next(err); // Pass error to the error-handling middleware
     }
     
 

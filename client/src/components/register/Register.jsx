@@ -1,28 +1,38 @@
 import {Link} from 'react-router'
-import authService from '../../services/authService';
+
+import { useState } from 'react';
+import { useRegister } from '../../api/authApi';
 
 export default function Register(){
 
-    const submitAction = async (formData) =>{
-        const data = Object.fromEntries(formData);
+    const [error,setError] = useState(null)
+    const { register } = useRegister()
+
+    const registerHandler = async (formData) =>{
+        const {email,username,password,rePassword} = Object.fromEntries(formData);
         
-        if(data.password !== data.rePassword){
+        if(password !== rePassword){
             return;
         }
 
-        const email = data.email;
-        const username = data.username;
-        const password = data.password;
+        
+        try{
+            const result = await register({email,username,password});
+            return result
+        }catch(err){
+            setError(err.message);
+            console.log(err.message);
+            setTimeout(() => setError(null), 3000);
+        }
+        
 
-        const result = await authService.register({email,username,password});
-
-        console.log(result);
+        
         
     }
 
     return(
         <section>
-            <form id="login" action={submitAction}>
+            <form id="login" action={registerHandler}>
             <h1>Register</h1>
             <label htmlFor="email">Email:</label>
             <input type="email" id="email" name="email" />
@@ -43,6 +53,7 @@ export default function Register(){
                 <span>Already have an account? Click <Link to="/login">here</Link></span>
             </div>
             </form>
+            {error ? <div id="errorSection">{error}</div> : <></>}  
         </section>
     )
 }

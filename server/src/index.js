@@ -21,8 +21,14 @@ try{
 app.use(express.json());
 // setup CORS
 app.use(cors());
-
 app.use(routes)
+app.use((err, req, res, next) => {
+    // console.error("Error:", err.message);
+
+    if (!res.headersSent) {
+        res.status(res.statusCode >= 400 ? res.statusCode : 500).json({ error: err.message });
+    }
+});
 
 
 

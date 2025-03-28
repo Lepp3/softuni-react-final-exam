@@ -11,6 +11,7 @@ import ProfilePage from './components/profile-page/ProfilePage'
 import CameraCreate from './components/camera-create/CameraCreate'
 import CameraEdit from './components/camera-edit/CameraEdit'
 import CameraDetails from './components/camera-details/CameraDetails'
+import { UserContext } from './contexts/UserContext'
 import { useState } from 'react'
 
 function App() {
@@ -21,12 +22,13 @@ function App() {
   }
 
   return (
-    <>
+    <UserContext.Provider value={{...authData, userLoginHandler}}>
+    <div id="box">
     <Header/>
     <main id="main-content">
     <Routes>
       <Route path='/' element={<Home/>}/>
-      <Route path='/login' element={<Login onLogin={userLoginHandler}/>}/>
+      <Route path='/login' element={<Login/>}/>
       <Route path='/user/:userId' element={<ProfilePage/>}/>
       <Route path='/register' element={<Register/>}/>
       <Route path='/logout'/>
@@ -37,7 +39,8 @@ function App() {
     </Routes>
     </main>
     <Footer/>
-    </>
+    </div>
+    </UserContext.Provider>
   )
 }
 

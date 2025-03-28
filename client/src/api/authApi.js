@@ -9,7 +9,11 @@ export const useLogin = () =>{
     const abortRef = useRef();
 
     const login = async (email,password)=>{
-        const authData = await requester.post(`${baseUrl}/login`,{email,password}, {signal: abortRef.current.signal});
+        const authData = await requester.post(
+            `${baseUrl}/login`,
+            {email,password}, 
+            {signal: abortRef.current.signal}
+        );
 
         return authData
     };

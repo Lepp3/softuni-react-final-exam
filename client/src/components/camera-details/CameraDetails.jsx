@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {useParams, Link, useNavigate} from 'react-router'
 import cameraService from '../../services/cameraService';
+import { UserContext } from '../../contexts/UserContext';
 
 
 export default function CameraDetails(){
     const {cameraId} = useParams()
     const navigate = useNavigate();
     const [camera,setCamera] = useState({});
+    const { email } = useContext(UserContext);
 
     useEffect(()=>{
         cameraService.getOne(cameraId)

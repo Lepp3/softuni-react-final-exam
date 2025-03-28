@@ -5,8 +5,8 @@ import InvalidToken from '../src/models/invalidToken.js';
 export const auth = async (req,res,next) =>{
     const token = req.headers['authorization'];
 
-    if(token){
-        return next();
+    if(!token){
+        return res.status(401).json({error: 'Authentication required!'});
     }
 
     //check if token is invalidated

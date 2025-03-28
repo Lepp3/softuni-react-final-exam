@@ -1,24 +1,30 @@
-import {Link} from 'react-router'
+import {Link, useNavigate} from 'react-router'
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useRegister } from '../../api/authApi';
+import { UserContext } from '../../contexts/UserContext';
 
 export default function Register(){
 
-    const [error,setError] = useState(null)
-    const { register } = useRegister()
+    const [error,setError] = useState(null);
+    const { register } = useRegister();
+    const { userLoginHandler } = useContext(UserContext);
+    const navigate  = useNavigate()
 
     const registerHandler = async (formData) =>{
         const {email,username,password,rePassword} = Object.fromEntries(formData);
         
         if(password !== rePassword){
+            setError('Password mismatch!');
+            setTimeout(() => setError(null), 3000);
             return;
         }
 
         
         try{
             const result = await register({email,username,password});
-            return result
+            userLoginHandler(result);
+            navigate('/');
         }catch(err){
             setError(err.message);
             console.log(err.message);

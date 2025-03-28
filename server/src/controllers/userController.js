@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import userService from '../services/userService.js';
+import { auth } from '../../middlewares/authMiddleware.js';
 
 
 
@@ -14,7 +15,8 @@ userController.post('/register', async (req,res,next)=>{
 
     try{
         const createdUser = await userService.register(userData);
-        res.status(201).json({createdUser});
+        const {email,authToken,userId} = createdUser;
+        res.status(201).json({email,authToken,userId});
     }catch(err){
         console.error(err.message);
         res.status(409);
@@ -26,7 +28,7 @@ userController.post('/register', async (req,res,next)=>{
 });
 
 
-userController.post('/login', async(req,res)=>{
+userController.post('/login', async(req,res,next)=>{
     const {email: userEmail, password} = req.body;
 
     try{
@@ -34,13 +36,15 @@ userController.post('/login', async(req,res)=>{
         const {email,authToken,userId} = loggedUser;
         res.status(201).json({email,authToken,userId})
     }catch(err){
-        res.status(401).json({error: err.message})
+        res.status(401);
+        next(err);
     }
 });
 
 
-userController.get('/logout', async (req,res)=>{
-    const token = req.headers['x-authorization'];
+userController.get('/logout', auth, async (req,res)=>{
+    const token = req.headers['authorization'];
+    
 
     try{
         await userService.invalidateToken(token);

@@ -13,6 +13,7 @@ import CameraEdit from './components/camera-edit/CameraEdit'
 import CameraDetails from './components/camera-details/CameraDetails'
 import { UserContext } from './contexts/UserContext'
 import { useState } from 'react'
+import Logout from './components/logout/Logout'
 
 function App() {
   const [authData,setAuth] = useState('');
@@ -31,7 +32,7 @@ function App() {
       <Route path='/login' element={<Login/>}/>
       <Route path='/user/:userId' element={<ProfilePage/>}/>
       <Route path='/register' element={<Register/>}/>
-      <Route path='/logout'/>
+      <Route path='/logout' element={<Logout/>}/>
       <Route path='/cameras' element={<Catalog/>}/>
       <Route path='/cameras/:cameraId/details' element={<CameraDetails/>}/>
       <Route path='/cameras/:cameraId/edit'element={<CameraEdit/>}/>

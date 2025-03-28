@@ -1,25 +1,26 @@
-import {Link} from 'react-router'
+import {Link, useNavigate} from 'react-router'
 import {useActionState} from 'react'
-import authService from '../../services/authService';
+
 import { useLogin } from '../../api/authApi';
 
-export default function Login(){
+export default function Login({onLogin}){
 
     const { login } = useLogin();
+    const navigate = useNavigate();
 
-    const loginHandler = async (previousState, formData) =>{
+    const loginHandler = async (_, formData) =>{
         const data = Object.fromEntries(formData);
 
        const result = await login(data.email,data.password);
 
-        // const result = await authService.login(data);
+       onLogin(result);
 
-        console.log(result);
-
+        navigate('/');
+        
         return data
     };
 
-    const [values,loginAction,isPending] = useActionState(loginHandler, {emai:'', password: ''});
+    const [_,loginAction,isPending] = useActionState(loginHandler, {emai:'', password: ''});
 
     
     return(
@@ -32,7 +33,7 @@ export default function Login(){
             <label htmlFor="password">Password:</label>
             <input type="password" id="password" name="password" />
 
-            <input type="submit" className="btn submit" value="Login" disabled={isPending}/>
+            <input type="submit" className="btn submit" value="Login" />
             <div className="afterField">
                 <span>If you don't have a profile click <Link to="/register">here</Link></span>
             </div>

@@ -11,9 +11,14 @@ import ProfilePage from './components/profile-page/ProfilePage'
 import CameraCreate from './components/camera-create/CameraCreate'
 import CameraEdit from './components/camera-edit/CameraEdit'
 import CameraDetails from './components/camera-details/CameraDetails'
+import { useState } from 'react'
 
 function App() {
-  
+  const [authData,setAuth] = useState('');
+
+  const userLoginHandler = (authData) =>{
+    setAuth(authData)
+  }
 
   return (
     <>
@@ -21,7 +26,7 @@ function App() {
     <main id="main-content">
     <Routes>
       <Route path='/' element={<Home/>}/>
-      <Route path='/login' element={<Login/>}/>
+      <Route path='/login' element={<Login onLogin={userLoginHandler}/>}/>
       <Route path='/user/:userId' element={<ProfilePage/>}/>
       <Route path='/register' element={<Register/>}/>
       <Route path='/logout'/>

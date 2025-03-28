@@ -3,7 +3,7 @@ import { JWT_SECRET } from '../src/config.js';
 import InvalidToken from '../src/models/invalidToken.js';
 
 export const auth = async (req,res,next) =>{
-    const token = req.headers['x-authorization'];
+    const token = req.headers['authorization'];
 
     if(token){
         return next();

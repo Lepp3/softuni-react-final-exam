@@ -20,5 +20,8 @@ export default {
     },
     deleteCamera(cameraId){
         return requester.delete(`${baseUrl}/${cameraId}`);
+    },
+    likeCamera(cameraId){
+        return requester.post(`${baseUrl}/${cameraId}/like`);
     }
 }

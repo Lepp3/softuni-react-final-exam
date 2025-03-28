@@ -99,9 +99,9 @@ cameraController.delete('/:cameraId', async(req,res)=>{
 });
 
 
-cameraController.post('/:cameraId/like', async (req,res)=>{
+cameraController.post('/:cameraId/like', isAuth, async (req,res)=>{
     const cameraId = req.params.cameraId;
-    const userId = req.user?.id;
+    const userId = req.user.id;
 
     try{
         const likeInfo = await cameraService.likeCamera(cameraId,userId);

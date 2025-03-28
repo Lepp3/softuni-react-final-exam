@@ -25,6 +25,11 @@ export default function CameraDetails(){
 
     }
 
+    const likeCameraHandler = async () =>{
+       const result =  await cameraService.likeCamera(cameraId);
+       console.log(result);
+    }
+
     return(
        <section>
         <div>
@@ -45,6 +50,10 @@ export default function CameraDetails(){
                 > 
                 Delete
                 </div>
+                <div className='btn'
+                onClick={likeCameraHandler}
+                >
+                    Like this camera</div>
             </div>
         </div>
        </section>

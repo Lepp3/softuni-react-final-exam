@@ -1,16 +1,14 @@
-import { useEffect, useState } from 'react'
-import {Link} from 'react-router'
-import cameraService from '../../services/cameraService';
+
 import CatalogItem from './CatalogItem';
+import { useCameras } from '../../api/cameraApi';
 
 export default function Catalog(){
 
-    const [cameras,setCameras] = useState([]);
+    const { cameras } = useCameras()
+
     
-    useEffect(()=>{
-        cameraService.getAll()
-        .then(setCameras)
-    },[])
+    
+    
     return(
         <section>
             <h1>Cameras</h1>

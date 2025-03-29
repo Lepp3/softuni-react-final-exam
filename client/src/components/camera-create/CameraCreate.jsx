@@ -1,14 +1,17 @@
-import cameraService from "../../services/cameraService";
+import { useCreateCamera } from "../../api/cameraApi";
+
 import {useNavigate} from 'react-router';
 
 export default function CameraCreate(){
 
     const navigate = useNavigate();
-
+    const { create } = useCreateCamera()
+ 
     const createHandler = async (formData) =>{
         const data = Object.fromEntries(formData);
 
-        const result = await cameraService.createCamera(data);
+         await create(data);
+        
 
         navigate('/cameras');
     }

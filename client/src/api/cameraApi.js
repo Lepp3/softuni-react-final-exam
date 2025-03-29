@@ -50,7 +50,8 @@ export const useCamera = (cameraId) =>{
     },[cameraId]);
 
     return{
-        camera
+        camera,
+        setCamera
     }
 };
 

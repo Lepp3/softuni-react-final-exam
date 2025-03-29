@@ -7,7 +7,7 @@ import { useCamera, useDeleteCamera, useLikeCamera } from '../../api/cameraApi';
 export default function CameraDetails(){
     const {cameraId} = useParams()
     const navigate = useNavigate();
-    const { camera } = useCamera(cameraId)
+    const { camera, setCamera } = useCamera(cameraId)
     const { userId } = useContext(UserContext);
     const [isOwner, setOwner] = useState(false);
     const { deleteCamera} = useDeleteCamera();
@@ -43,6 +43,10 @@ export default function CameraDetails(){
     const likeCameraHandler = async () =>{
        await likeCamera(cameraId);
        setLiked(true);
+       setCamera(oldState => ({
+        ...oldState,
+        likedBy: [...oldState.likedBy, userId]
+       }))
        
        
        
@@ -71,7 +75,12 @@ export default function CameraDetails(){
                 :
                 <></>
                 }   
-                {( !isOwner && !hasLiked && userId) && <div className='btn' onClick={likeCameraHandler}>Like this camera</div>}
+                {camera?.likedBy?.length > 0 ?
+                camera.likedBy.length === 1 ?
+                    <p>{camera.likedBy.length} person recommends this camera</p>
+                    : <p>{camera.likedBy.length} people recommend this camera</p>
+            : <></>}
+                {( !isOwner && !hasLiked && userId) && <div className='btn' onClick={likeCameraHandler}>Recommend this camera!</div>}
                 
         </div>
         </div>

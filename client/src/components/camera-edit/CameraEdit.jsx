@@ -1,27 +1,22 @@
-import { useEffect, useState } from "react";
 import { useParams, useNavigate } from 'react-router'
-import cameraService from "../../services/cameraService";
+import { useCamera, useEditCamera } from "../../api/cameraApi";
 
 export default function CameraEdit(){
 
     const {cameraId} = useParams()
 
     const navigate = useNavigate();
+
+    const { camera } = useCamera(cameraId);
+
+    const { edit } = useEditCamera()
     
-    const [camera,setCamera] = useState({});
-
-
-    useEffect(()=>{
-        cameraService.getOne(cameraId)
-        .then(result=>{
-            setCamera(result)
-        })
-    },[cameraId])
+   
 
     const editHandler = async (formData) =>{
         const data = Object.fromEntries(formData);
 
-        const result = await cameraService.editCamera(data,cameraId);
+        await edit(cameraId,data);
 
     
         navigate(`/cameras/${cameraId}/details`);

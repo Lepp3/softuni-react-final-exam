@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect,useState } from 'react'
 import {useParams, Link, useNavigate} from 'react-router'
 import cameraService from '../../services/cameraService';
 import { UserContext } from '../../contexts/UserContext';
@@ -9,8 +9,16 @@ export default function CameraDetails(){
     const {cameraId} = useParams()
     const navigate = useNavigate();
     const { camera } = useCamera(cameraId)
-   
-    const { email } = useContext(UserContext);
+    const { userId } = useContext(UserContext);
+    const [isOwner, setOwner] = useState(false);
+
+    useEffect(()=>{
+        if(userId && camera){
+            setOwner(userId === camera.ownerId)
+        }
+    },[userId,camera])
+    
+    
 
     
 
@@ -44,18 +52,18 @@ export default function CameraDetails(){
                 <h3>Description</h3>
                 <p>{camera.description}</p>
             </div>
+            
             <div className='buttons'>
+                {isOwner ? 
+                <div className="ownerButtons">
                 <div className='btn'> <Link to={`/cameras/${cameraId}/edit`}>Edit</Link></div>
-                <div className='btn'
-                    onClick={cameraDeleteHandler}
-                > 
-                Delete
+                <div className='btn' onClick={cameraDeleteHandler}> Delete</div>
                 </div>
-                <div className='btn'
-                onClick={likeCameraHandler}
-                >
-                    Like this camera</div>
-            </div>
+                :
+                <></>
+                }   
+                <div className='btn' onClick={likeCameraHandler}>Like this camera</div>
+        </div>
         </div>
        </section>
     )

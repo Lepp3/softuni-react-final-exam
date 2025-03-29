@@ -36,4 +36,20 @@ export const useCameras = () =>{
     return {
         cameras
     }
+};
+
+export const useCamera = (cameraId) =>{
+    const [camera,setCamera] = useState({});
+
+
+    useEffect(()=>{
+        requester.get(`${baseUrl}/${cameraId}`)
+        .then(result=>{
+            setCamera(result);
+        },[cameraId])
+    });
+
+    return{
+        camera
+    }
 }

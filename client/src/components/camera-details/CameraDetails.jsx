@@ -1,19 +1,18 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import {useParams, Link, useNavigate} from 'react-router'
 import cameraService from '../../services/cameraService';
 import { UserContext } from '../../contexts/UserContext';
+import { useCamera } from '../../api/cameraApi';
 
 
 export default function CameraDetails(){
     const {cameraId} = useParams()
     const navigate = useNavigate();
-    const [camera,setCamera] = useState({});
+    const { camera } = useCamera(cameraId)
+   
     const { email } = useContext(UserContext);
 
-    useEffect(()=>{
-        cameraService.getOne(cameraId)
-        .then(setCamera)
-    },[cameraId]);
+    
 
 
     const cameraDeleteHandler = async () =>{

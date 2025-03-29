@@ -22,8 +22,12 @@ function App() {
     setAuth(authData)
   }
 
+  const userLogoutHandler = () =>{
+    setAuth({});
+  }
+
   return (
-    <UserContext.Provider value={{...authData, userLoginHandler}}>
+    <UserContext.Provider value={{...authData, userLoginHandler,userLogoutHandler}}>
     <div id="box">
     <Header/>
     <main id="main-content">

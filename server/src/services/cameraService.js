@@ -1,4 +1,5 @@
 import Camera from "../models/Camera.js";
+import User from "../models/User.js";
 
 
 export default {
@@ -14,7 +15,11 @@ export default {
         return Camera.findOne({_id: cameraId})
     },
     async createCamera(cameraData,userId){
-        return Camera.create({...cameraData,ownerId: userId});
+        const user = await  User.findById(userId);
+        const newCamera = await Camera.create({...cameraData,ownerId: userId});
+        user.createdPosts.push(newCamera._id);
+        user.save();
+        return newCamera
     },
     async updateCamera(cameraId,cameraData){
         
@@ -30,9 +35,12 @@ export default {
     },
     async likeCamera(cameraId,userId){
         const camera = await Camera.findById(cameraId);
+        const user = await User.findById(userId);
         //todo implement self-like defense
         //todo implement doulb-elike by id defense
         camera.likedBy.push(userId);
+        user.likedPosts.push(camera._id);
+        user.save();
         return camera.save();
     }
 

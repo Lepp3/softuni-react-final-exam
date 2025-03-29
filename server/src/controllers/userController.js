@@ -44,7 +44,7 @@ userController.post('/login', async(req,res,next)=>{
 
 userController.get('/logout', auth, async (req,res)=>{
     const token = req.headers['authorization'];
-    
+
 
     try{
         await userService.invalidateToken(token);
@@ -58,13 +58,14 @@ userController.get('/logout', auth, async (req,res)=>{
 
 userController.get('/:userId', async (req,res)=>{
     const userId = req.params.userId;
-
+    console.log(userId);
+    
     try{
         const user = await userService.getOneUser(userId);
         if(!user){
             throw new Error('User not found');
         }
-        res.status(200).json(user)
+        res.json(user)
     }catch(err){
         res.status(404).json('No user found');
     }

@@ -62,10 +62,9 @@ export default {
      invalidateToken(token){
         return InvalidToken.create({token})
      },
-     async getOneUser(userId){
-        const user = await User.findOne({_id: userId});
-
-        return user
+      getOneUser(userId){
+        
+        return User.findById(userId).populate('createdPosts').populate('likedPosts')
      },
      async updateUser(userId,userData){
         return await User.findOneAndUpdate(

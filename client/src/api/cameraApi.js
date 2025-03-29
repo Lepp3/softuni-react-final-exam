@@ -46,8 +46,8 @@ export const useCamera = (cameraId) =>{
         requester.get(`${baseUrl}/${cameraId}`)
         .then(result=>{
             setCamera(result);
-        },[cameraId])
-    });
+        })
+    },[cameraId]);
 
     return{
         camera
@@ -77,5 +77,19 @@ export const useDeleteCamera = () =>{
 
     return{
         deleteCamera
+    }
+};
+
+
+export const useLikeCamera = ()=>{
+    const {request} = useAuth();
+
+    const likeCamera = (cameraId)=>{
+        const result = request.post(`${baseUrl}/${cameraId}/like`);
+        return result
+    }
+
+    return{
+        likeCamera
     }
 }

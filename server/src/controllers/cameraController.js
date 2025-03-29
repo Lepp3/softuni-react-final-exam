@@ -1,6 +1,6 @@
 import { Router } from "express";
 import cameraService from "../services/cameraService.js";
-import { isAuth } from "../../middlewares/authMiddleware.js";
+import { auth } from "../../middlewares/authMiddleware.js";
 
 
 const cameraController = Router();
@@ -45,7 +45,7 @@ cameraController.get('/:cameraId', async (req,res)=>{
 })
 
 //create
-cameraController.post('/create', isAuth ,async (req,res)=>{
+cameraController.post('/create', auth ,async (req,res)=>{
 
     const cameraData = req.body;
     const userId = req.user.id;
@@ -68,7 +68,7 @@ cameraController.get('/create', async (req,res)=>{
 })
 
 //edit one
-cameraController.put('/:cameraId', async(req,res)=>{
+cameraController.put('/:cameraId',auth, async(req,res)=>{
     const cameraId = req.params.cameraId;
     const cameraInfo = req.body;
     
@@ -85,7 +85,7 @@ cameraController.put('/:cameraId', async(req,res)=>{
 });
 
 //delete one
-cameraController.delete('/:cameraId', async(req,res)=>{
+cameraController.delete('/:cameraId', auth,async(req,res)=>{
     const cameraId = req.params.cameraId;
 
     try{
@@ -100,9 +100,10 @@ cameraController.delete('/:cameraId', async(req,res)=>{
 });
 
 
-cameraController.post('/:cameraId/like', isAuth, async (req,res)=>{
+cameraController.post('/:cameraId/like', auth, async (req,res)=>{
     const cameraId = req.params.cameraId;
     const userId = req.user.id;
+    console.log('LIKE CALLED');
 
     try{
         const likeInfo = await cameraService.likeCamera(cameraId,userId);

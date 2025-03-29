@@ -4,7 +4,7 @@ import {useActionState, useContext} from 'react'
 import { useLogin } from '../../api/authApi';
 import { UserContext } from '../../contexts/UserContext';
 
-export default function Login({onLogin}){
+export default function Login(){
 
     const { login } = useLogin();
     const navigate = useNavigate();

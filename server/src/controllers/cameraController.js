@@ -71,6 +71,7 @@ cameraController.get('/create', async (req,res)=>{
 cameraController.put('/:cameraId', async(req,res)=>{
     const cameraId = req.params.cameraId;
     const cameraInfo = req.body;
+    
 
     try{
         const updatedCamera = await cameraService.updateCamera(cameraId,cameraInfo);

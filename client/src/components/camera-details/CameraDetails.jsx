@@ -2,7 +2,7 @@ import { useContext, useEffect,useState } from 'react'
 import {useParams, Link, useNavigate} from 'react-router'
 import cameraService from '../../services/cameraService';
 import { UserContext } from '../../contexts/UserContext';
-import { useCamera } from '../../api/cameraApi';
+import { useCamera, useDeleteCamera } from '../../api/cameraApi';
 
 
 export default function CameraDetails(){
@@ -11,6 +11,7 @@ export default function CameraDetails(){
     const { camera } = useCamera(cameraId)
     const { userId } = useContext(UserContext);
     const [isOwner, setOwner] = useState(false);
+    const { deleteCamera} = useDeleteCamera()
 
     useEffect(()=>{
         if(userId && camera){
@@ -29,7 +30,7 @@ export default function CameraDetails(){
             return
         }
 
-        await cameraService.deleteCamera(cameraId);
+        await deleteCamera(cameraId);
         navigate('/cameras');
 
     }

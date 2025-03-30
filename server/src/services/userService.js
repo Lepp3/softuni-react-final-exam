@@ -72,8 +72,6 @@ export default {
             profileImageUrl: userData.profileImageUrl
         }
 
-        console.log('INFO IN SERVICE', userData.bio,userData.imageUrl);
-
         return await User.findByIdAndUpdate(
             userId,
             {$set: allowedUpdates},

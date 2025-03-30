@@ -76,7 +76,7 @@ userController.put('/:userId', auth, async (req,res)=>{
     const userId = req.params.userId;
     const userData = req.body;
 
-    console.log('UPDATE CALLED IN CONTROLLER')
+  
 
     try{
         const updatedUser = await userService.updateUser(userId,userData);

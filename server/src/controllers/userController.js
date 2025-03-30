@@ -58,7 +58,7 @@ userController.get('/logout', auth, async (req,res)=>{
 
 userController.get('/:userId', async (req,res)=>{
     const userId = req.params.userId;
-    console.log(userId);
+    
     
     try{
         const user = await userService.getOneUser(userId);

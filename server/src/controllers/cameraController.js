@@ -1,6 +1,6 @@
 import { Router } from "express";
 import cameraService from "../services/cameraService.js";
-import { auth } from "../../middlewares/authMiddleware.js";
+import { auth, isAuth } from "../../middlewares/authMiddleware.js";
 
 
 const cameraController = Router();
@@ -103,7 +103,7 @@ cameraController.delete('/:cameraId', auth,async(req,res)=>{
 cameraController.post('/:cameraId/like', auth, async (req,res)=>{
     const cameraId = req.params.cameraId;
     const userId = req.user.id;
-    console.log('LIKE CALLED');
+   
 
     try{
         const likeInfo = await cameraService.likeCamera(cameraId,userId);
@@ -115,6 +115,35 @@ cameraController.post('/:cameraId/like', auth, async (req,res)=>{
         res.status(500).json(err.message);
     }
 });
+
+
+cameraController.post('/:cameraId/comments', auth ,async (req,res)=>{
+    const cameraId = req.params.cameraId;
+    const userId = req.user.id;
+    const commentData = req.body;
+
+    try{
+        const comment = await cameraService.postComment(userId,cameraId,commentData);
+        res.status(200).json(comment)
+    }catch(err){
+        res.status(500).json(err.message);
+    }
+});
+
+cameraController.delete('/:cameraId/comments/:commentId', auth, async(req,res)=>{
+    const cameraId = req.params.cameraId;
+    const commentId = req.params.commentId;
+    const userId = req.user.id;
+
+    try{
+        const deletedComment = await cameraService.deleteComment(userId,cameraId,commentId);
+        res.status(200).json(deletedComment);
+    }catch(err){
+        res.status(500).json(err.message);
+    }
+})
+
+
 
 
 

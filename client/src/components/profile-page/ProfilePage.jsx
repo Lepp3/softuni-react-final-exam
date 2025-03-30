@@ -6,11 +6,10 @@ import CatalogItem from "../catalog/CatalogItem";
 
 export default function ProfilePage(){
     const { fetchedUser } = useParams();
-    const { user } = useGetUser(fetchedUser);
+    const { user, setUser } = useGetUser(fetchedUser);
     const { userId } = useContext(UserContext);
 
-    console.log(user);
-    console.log(userId);
+    
     return(
         
         <section>
@@ -18,7 +17,8 @@ export default function ProfilePage(){
             <div id="userInfo">
             <p>{user.username}</p>
             <p>{user.email}</p>
-            <Outlet/>
+            <p>{user.bio}</p>
+            <p>{user.profileImageUrl}</p>
             {(userId === user._id ? <div id="profileButtons">
                 <Link to={`/user/${user._id}/edit`}><button>Edit Profile</button></Link>
             </div>:

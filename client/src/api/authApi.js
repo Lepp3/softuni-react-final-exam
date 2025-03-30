@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef,useState } from "react"
 import requester from "../utils/requester"
 import { UserContext } from "../contexts/UserContext";
+import useAuth from "../hooks/useAuth";
 
 
 const baseUrl = 'http://localhost:3030/users'
@@ -102,6 +103,21 @@ export const useGetUser = (userId) =>{
     },[userId]);
 
     return{
-        user
+        user,
+        setUser
     }
 };
+
+export const useEditUser = () =>{
+    const { request } = useAuth()
+
+    const editUserProfile = (userId, userData) => {
+        const result = request.put(`${baseUrl}/${userId}`, userData);
+        return result
+    };
+
+    return {
+        editUserProfile
+    }
+
+}

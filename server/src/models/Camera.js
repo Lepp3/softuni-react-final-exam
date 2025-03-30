@@ -52,7 +52,7 @@ const cameraSchema = new Schema({
 
 cameraSchema.post('findOneAndDelete', async function(doc,next){
     if(doc){
-        console.log('DELETED CAMERA', doc);
+        
         const postId = doc._id;
 
         await User.updateMany(

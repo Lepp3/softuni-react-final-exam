@@ -67,9 +67,16 @@ export default {
         return User.findById(userId).populate('createdPosts').populate('likedPosts')
      },
      async updateUser(userId,userData){
-        return await User.findOneAndUpdate(
-            {_id: userId},
-            userData,
+        const allowedUpdates = {
+            bio: userData.bio,
+            profileImageUrl: userData.profileImageUrl
+        }
+
+        console.log('INFO IN SERVICE', userData.bio,userData.imageUrl);
+
+        return await User.findByIdAndUpdate(
+            userId,
+            {$set: allowedUpdates},
             {new:true, runValidators: true});
         
      }

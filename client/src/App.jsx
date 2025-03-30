@@ -36,9 +36,9 @@ function App() {
     <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path='/login' element={<Login/>}/>
-      <Route path='/user/:fetchedUser' element={<ProfilePage/>}>
-        <Route path='edit' element={<EditProfile/>}/>
-      </Route>
+      <Route path='/user/:fetchedUser' element={<ProfilePage/>}/>
+      <Route path='/user/:fetchedUser/edit' element={<EditProfile/>}/>   
+  
       <Route path='/register' element={<Register/>}/>
       <Route path='/logout' element={<Logout/>}/>
       <Route path='/cameras' element={<Catalog/>}/>

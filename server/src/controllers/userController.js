@@ -72,9 +72,11 @@ userController.get('/:userId', async (req,res)=>{
     
 })
 
-userController.put('/:userId', async (req,res)=>{
+userController.put('/:userId', auth, async (req,res)=>{
     const userId = req.params.userId;
     const userData = req.body;
+
+    console.log('UPDATE CALLED IN CONTROLLER')
 
     try{
         const updatedUser = await userService.updateUser(userId,userData);
@@ -83,7 +85,7 @@ userController.put('/:userId', async (req,res)=>{
         }
         res.status(200).json(updatedUser);
     }catch(err){
-        res.status(404).json('Failed to update user', err.message);
+        res.status(404).json({error: 'Failed to update user',message: err.message});
     }
 })
 

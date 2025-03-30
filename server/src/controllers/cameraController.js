@@ -121,7 +121,7 @@ cameraController.post('/:cameraId/comments', auth ,async (req,res)=>{
     const cameraId = req.params.cameraId;
     const userId = req.user.id;
     const commentData = req.body;
-    console.log('CAMERA CONTROLLER', cameraId,userId,commentData)
+   
 
     try{
         const comment = await cameraService.postComment(userId,cameraId,commentData);

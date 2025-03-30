@@ -38,9 +38,12 @@ const cameraSchema = new Schema({
         type: Types.ObjectId,
         ref: 'User'
     }],
-    comments: [
-        
-    ]
+    comments: [ { 
+        _id: { type: Types.ObjectId, auto: true }, 
+        ownerId: { type: Types.ObjectId, ref: "User" }, 
+        content: { type: String, minlength: 2, maxlength: 150 }, 
+        createdAt: { type: Date, default: Date.now }, 
+        updatedAt: { type: Date, default: Date.now }, } ]
 
 },{
     timestamps: true

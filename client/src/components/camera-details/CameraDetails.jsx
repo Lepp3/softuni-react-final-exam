@@ -13,8 +13,8 @@ export default function CameraDetails(){
     const { deleteCamera} = useDeleteCamera();
     const { likeCamera } = useLikeCamera();
     const [hasLiked,setLiked] = useState(false);
-    // const { postComment } = usePostComment()
-    // const [comments,setComments] = useState([]);
+    const { postComment } = usePostComment()
+    const [comments,setComments] = useState([]);
     
 
     useEffect(()=>{
@@ -24,9 +24,9 @@ export default function CameraDetails(){
             setLiked(camera.likedBy.includes(userId))
            
         }
-        // if(camera?.comments && camera?.comments.length > 0){
-        //     setComments(camera.comments)
-        // }
+        if(camera?.comments){
+            setComments(camera.comments)
+        }
     },[userId,camera?.ownerId,camera?.likedBy,camera?.comments])
     
     
@@ -57,17 +57,17 @@ export default function CameraDetails(){
        
     }
 
-    // const postCommentHandler = async (formData) =>{
-    //     const commentData = Object.fromEntries(formData);
-    //     const result = await postComment(cameraId, commentData);
-    //     if(!result){
-    //         return
-    //     }
-    //     setCamera(oldState =>({
-    //         ...oldState,
-    //         comments: [...oldState,result]
-    //     }))
-    // }
+    const postCommentHandler = async (formData) =>{
+        const commentData = Object.fromEntries(formData);
+        const result = await postComment(cameraId, commentData);
+        if(!result){
+            return
+        }
+        setCamera(oldState =>({
+            ...oldState,
+            comments: [...oldState?.comments ,result]
+        }))
+    }
 
     return(
        <section>
@@ -100,7 +100,7 @@ export default function CameraDetails(){
                 {( !isOwner && !hasLiked && userId) && <div className='btn' onClick={likeCameraHandler}>Recommend this camera!</div>}
                 
         </div>
-        {/* <div id="commentSection">
+        <div id="commentSection">
             <section>
                 {comments.length > 0 ?
                  <div id="existingComments">
@@ -117,7 +117,7 @@ export default function CameraDetails(){
                 <textarea  id="content" name="content" rows="5" cols="33"></textarea>
                 <input type="submit" className="btn submit" value="Post comment" />
             </form>
-        </div> */}
+        </div>
         </div>
        </section>
     )

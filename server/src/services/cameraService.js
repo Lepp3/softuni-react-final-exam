@@ -13,7 +13,7 @@ export default {
         return cameras
     },
     async getOneCamera(cameraId){
-        return Camera.findOne({_id: cameraId})
+        return Camera.findById(cameraId);
     },
     async createCamera(cameraData,userId){
         const user = await  User.findById(userId);
@@ -49,38 +49,38 @@ export default {
     //     return camera.comments;
 
     // },
-    // async postComment(userId,cameraId,commentData){
-    //     const camera = await Camera.findById(cameraId);
-    //     console.log(commentData.content);
-    //     const newComment = {
-    //         _id: new mongoose.Types.ObjectId(), // Generate a unique ID manually
-    //         ownerId: new mongoose.Types.ObjectId(userId),
-    //         content: commentData.content,
-    //         createdAt: new Date(),
-    //         updatedAt: new Date(),
-    //     };
-    //     camera.comments.push(newComment);
-    //     await camera.save();
-    //     return newComment
-    // },
-    // async deleteComment(userId,cameraId,commentId){
-    //     const camera = await Camera.findById(cameraId);
-    //     if(!camera){
-    //         throw new Error('No camera found!');
-    //     }
+    async postComment(userId,cameraId,commentData){
+        const camera = await Camera.findById(cameraId);
+        
+        const newComment = {
+            _id: new mongoose.Types.ObjectId(), // Generate a unique ID manually
+            ownerId: new mongoose.Types.ObjectId(userId),
+            content: commentData.content,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        };
+        camera.comments.push(newComment);
+        await camera.save();
+        return newComment
+    },
+    async deleteComment(userId,cameraId,commentId){
+        const camera = await Camera.findById(cameraId);
+        if(!camera){
+            throw new Error('No camera found!');
+        }
 
-    //     const commentToDelete = camera.comments.find(comment=> comment._id.toString() === commentId);
-    //     if(!commentToDelete){
-    //         throw new Error('No comment found!');
-    //     }
+        const commentToDelete = camera.comments.find(comment=> comment._id.toString() === commentId);
+        if(!commentToDelete){
+            throw new Error('No comment found!');
+        }
 
-    //     if(camera.ownerId.toString() !== userId && commentToDelete.ownerId.toString() !== userId){
-    //         throw new Error('Unauthorized! Only post and comment owners can delete comments!');
-    //     }
+        if(camera.ownerId.toString() !== userId && commentToDelete.ownerId.toString() !== userId){
+            throw new Error('Unauthorized! Only post and comment owners can delete comments!');
+        }
 
-    //     camera.comments = camera.comments.filter(comment=>comment._id.toString() !== commentId);
-    //     await camera.save()
-    //     return `Comment with id ${commentId} deleted successfully!`
-    // }
+        camera.comments = camera.comments.filter(comment=>comment._id.toString() !== commentId);
+        await camera.save()
+        return `Comment with id ${commentId} deleted successfully!`
+    }
 
 }

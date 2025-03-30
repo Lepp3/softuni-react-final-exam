@@ -29,7 +29,7 @@ export default {
     },
     async deleteCamera(cameraId){
         
-        return await Camera.findByIdAndDelete(cameraId);
+        return await Camera.findOneAndDelete({_id: cameraId});
     },
     getCreatedCameras(userId){
         return Camera.find({ownerId: userId});

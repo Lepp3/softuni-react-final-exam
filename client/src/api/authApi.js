@@ -90,13 +90,15 @@ export const useLogout = () =>{
 
 export const useGetUser = (userId) =>{
     const [user,setUser] = useState({});
-
+    
 
     useEffect(()=>{
         requester.get(`${baseUrl}/${userId}`)
         .then(result=>{
             setUser(result);
         })
+
+        
     },[userId]);
 
     return{

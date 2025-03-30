@@ -34,7 +34,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path='/login' element={<Login/>}/>
-      <Route path='/user/:userId' element={<ProfilePage/>}/>
+      <Route path='/user/:fetchedUser' element={<ProfilePage/>}/>
       <Route path='/register' element={<Register/>}/>
       <Route path='/logout' element={<Logout/>}/>
       <Route path='/cameras' element={<Catalog/>}/>

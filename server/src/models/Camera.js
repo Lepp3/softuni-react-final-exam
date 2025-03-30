@@ -1,4 +1,5 @@
 import { Schema, model, Types } from "mongoose";
+import User from "./User.js";
 
 
 const cameraSchema = new Schema({
@@ -48,6 +49,19 @@ const cameraSchema = new Schema({
 },{
     timestamps: true
 });
+
+cameraSchema.post('findOneAndDelete', async function(doc,next){
+    if(doc){
+        console.log('DELETED CAMERA', doc);
+        const postId = doc._id;
+
+        await User.updateMany(
+            {$or: [{ createdPosts: postId }, { likedPosts: postId }] },
+            {$pull: { createdPosts: postId, likedPosts: postId }})
+    }
+
+    next()
+})
 
 
 const Camera = model('Camera', cameraSchema);

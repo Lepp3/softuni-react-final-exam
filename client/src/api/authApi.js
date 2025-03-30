@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react"
+import { useContext, useEffect, useRef,useState } from "react"
 import requester from "../utils/requester"
 import { UserContext } from "../contexts/UserContext";
 
@@ -87,3 +87,19 @@ export const useLogout = () =>{
     }
     
 }
+
+export const useGetUser = (userId) =>{
+    const [user,setUser] = useState({});
+
+
+    useEffect(()=>{
+        requester.get(`${baseUrl}/${userId}`)
+        .then(result=>{
+            setUser(result);
+        })
+    },[userId]);
+
+    return{
+        user
+    }
+};

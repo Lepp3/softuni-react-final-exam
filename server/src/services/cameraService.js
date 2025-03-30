@@ -78,9 +78,11 @@ export default {
             throw new Error('Unauthorized! Only post and comment owners can delete comments!');
         }
 
-        camera.comments = camera.comments.filter(comment=>comment._id.toString() !== commentId);
+       
+      
+        camera.comments = camera.comments.filter(comment=>comment._id !== commentToDelete._id);
         await camera.save()
-        return `Comment with id ${commentId} deleted successfully!`
+        return commentToDelete
     }
 
 }

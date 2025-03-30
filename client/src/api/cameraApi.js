@@ -88,13 +88,27 @@ export const useDeleteCamera = () =>{
     const {request} = useAuth();
 
     const deleteCamera = (cameraId) =>{
-        request.delete(`${baseUrl}/${cameraId}`)
+        const result = request.delete(`${baseUrl}/${cameraId}`);
+        return result;
     }
 
     return{
         deleteCamera
     }
 };
+
+export const useDeleteComment = () =>{
+    const {request} = useAuth();
+
+    const deleteComment = (cameraId,commentId) =>{
+       const result =  request.delete(`${baseUrl}/${cameraId}/comments/${commentId}`);
+       return result
+    }
+
+    return{
+        deleteComment
+    }
+}
 
 
 export const useLikeCamera = ()=>{

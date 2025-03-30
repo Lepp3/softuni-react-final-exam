@@ -136,6 +136,7 @@ cameraController.delete('/:cameraId/comments/:commentId', auth, async(req,res)=>
     const commentId = req.params.commentId;
     const userId = req.user.id;
 
+
     try{
         const deletedComment = await cameraService.deleteComment(userId,cameraId,commentId);
         res.status(200).json(deletedComment);

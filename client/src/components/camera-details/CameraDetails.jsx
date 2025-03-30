@@ -2,10 +2,11 @@ import { useContext, useEffect,useState,useRef } from 'react'
 import {useParams, Link, useNavigate} from 'react-router'
 import { UserContext } from '../../contexts/UserContext';
 import { useCamera, useDeleteCamera, useLikeCamera, usePostComment } from '../../api/cameraApi';
+import SingleComment from './SingleComment';
 
 
 export default function CameraDetails(){
-    const {cameraId} = useParams()
+    const { cameraId } = useParams()
     const navigate = useNavigate();
     const { camera, setCamera } = useCamera(cameraId)
     const { userId } = useContext(UserContext);
@@ -16,16 +17,18 @@ export default function CameraDetails(){
     const { postComment } = usePostComment()
     const [comments,setComments] = useState([]);
     
+    
 
     useEffect(()=>{
         
         if(userId && camera?.ownerId){
-            setOwner(userId === camera.ownerId)
-            setLiked(camera.likedBy.includes(userId))
+            setOwner(userId === camera.ownerId);
+            setLiked(camera.likedBy.includes(userId));
+            
            
         }
         if(camera?.comments){
-            setComments(camera.comments)
+            setComments(camera.comments);
         }
     },[userId,camera?.ownerId,camera?.likedBy,camera?.comments])
     
@@ -48,6 +51,7 @@ export default function CameraDetails(){
     const likeCameraHandler = async () =>{
        await likeCamera(cameraId);
        setLiked(true);
+       
        setCamera(oldState => ({
         ...oldState,
         likedBy: [...oldState.likedBy, userId]
@@ -63,10 +67,20 @@ export default function CameraDetails(){
         if(!result){
             return
         }
+        
         setCamera(oldState =>({
             ...oldState,
             comments: [...oldState?.comments ,result]
         }))
+        
+    }
+
+    const handleDelete = (deletedComment) =>{
+        
+        setCamera(oldState => ({
+            ...oldState,
+            comments: oldState?.comments.filter(comment=>comment._id !== deletedComment._id)
+        }));
     }
 
     return(
@@ -104,19 +118,22 @@ export default function CameraDetails(){
             <section>
                 {comments.length > 0 ?
                  <div id="existingComments">
-                    {comments.map(comment=><div key={comment._id}> {comment.content}</div>)}
+                    {comments.map(comment=><SingleComment key={comment._id} {...comment} onDelete={handleDelete} isPublicationOwner={isOwner}/>)}
                     </div>
                     :
-                    <p>No comments yet</p>}
+                    <p>No comments yet</p>
+                    }
             </section>
 
-            <form action={postCommentHandler}>
+        {userId ? <form action={postCommentHandler}>
                 <h1>Post a comment</h1>
 
                 <label htmlFor="content">Your comment:</label>
                 <textarea  id="content" name="content" rows="5" cols="33"></textarea>
                 <input type="submit" className="btn submit" value="Post comment" />
-            </form>
+            </form> :
+            <></>}
+            
         </div>
         </div>
        </section>

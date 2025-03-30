@@ -39,13 +39,13 @@ export default {
        
 
         if(!user){
-            throw new Error('Email or password are incorrect!');
+            throw new Error('Nqma user');
         }
 
         const isValid = await bcrypt.compare(password, user.password);
 
         if(!isValid){
-            throw new Error('Email or password are incorrect!');
+            throw new Error('Nevalidna parola');
         }
 
         const token = generateToken(user);

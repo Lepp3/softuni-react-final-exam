@@ -38,6 +38,8 @@ export const useCameras = () =>{
     }
 };
 
+
+
 export const useCamera = (cameraId) =>{
     const [camera,setCamera] = useState({});
 
@@ -67,6 +69,19 @@ export const useEditCamera = () =>{
         edit
     }
 
+}
+
+export const usePostComment = () =>{
+    const { request } = useAuth();
+
+    const postComment = (cameraId,commentData) =>{
+        const result = request.post(`${baseUrl}/${cameraId}/comments`, commentData);
+        return result
+    }
+
+    return {
+        postComment
+    }
 }
 
 export const useDeleteCamera = () =>{

@@ -1,7 +1,7 @@
 import { useContext, useEffect,useState,useRef } from 'react'
 import {useParams, Link, useNavigate} from 'react-router'
 import { UserContext } from '../../contexts/UserContext';
-import { useCamera, useDeleteCamera, useLikeCamera } from '../../api/cameraApi';
+import { useCamera, useDeleteCamera, useLikeCamera, usePostComment } from '../../api/cameraApi';
 
 
 export default function CameraDetails(){
@@ -13,6 +13,8 @@ export default function CameraDetails(){
     const { deleteCamera} = useDeleteCamera();
     const { likeCamera } = useLikeCamera();
     const [hasLiked,setLiked] = useState(false);
+    // const { postComment } = usePostComment()
+    // const [comments,setComments] = useState([]);
     
 
     useEffect(()=>{
@@ -22,7 +24,10 @@ export default function CameraDetails(){
             setLiked(camera.likedBy.includes(userId))
            
         }
-    },[userId,camera?.ownerId,camera?.likedBy])
+        // if(camera?.comments && camera?.comments.length > 0){
+        //     setComments(camera.comments)
+        // }
+    },[userId,camera?.ownerId,camera?.likedBy,camera?.comments])
     
     
    
@@ -51,6 +56,18 @@ export default function CameraDetails(){
        
        
     }
+
+    // const postCommentHandler = async (formData) =>{
+    //     const commentData = Object.fromEntries(formData);
+    //     const result = await postComment(cameraId, commentData);
+    //     if(!result){
+    //         return
+    //     }
+    //     setCamera(oldState =>({
+    //         ...oldState,
+    //         comments: [...oldState,result]
+    //     }))
+    // }
 
     return(
        <section>
@@ -83,6 +100,24 @@ export default function CameraDetails(){
                 {( !isOwner && !hasLiked && userId) && <div className='btn' onClick={likeCameraHandler}>Recommend this camera!</div>}
                 
         </div>
+        {/* <div id="commentSection">
+            <section>
+                {comments.length > 0 ?
+                 <div id="existingComments">
+                    {comments.map(comment=><div key={comment._id}> {comment.content}</div>)}
+                    </div>
+                    :
+                    <p>No comments yet</p>}
+            </section>
+
+            <form action={postCommentHandler}>
+                <h1>Post a comment</h1>
+
+                <label htmlFor="content">Your comment:</label>
+                <textarea  id="content" name="content" rows="5" cols="33"></textarea>
+                <input type="submit" className="btn submit" value="Post comment" />
+            </form>
+        </div> */}
         </div>
        </section>
     )

@@ -1,4 +1,4 @@
-import { useParams } from "react-router"
+import { useParams, Link, Outlet} from "react-router"
 import { useGetUser } from "../../api/authApi";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
@@ -18,9 +18,10 @@ export default function ProfilePage(){
             <div id="userInfo">
             <p>{user.username}</p>
             <p>{user.email}</p>
-            <p></p>
-            <p></p>
-            {(userId === user._id ? <p>BUTONI</p>:
+            <Outlet/>
+            {(userId === user._id ? <div id="profileButtons">
+                <Link to={`/user/${user._id}/edit`}><button>Edit Profile</button></Link>
+            </div>:
                 <>  </>)}
                 <div id="likedPosts">
                     <h3>LIKED POSTS</h3>

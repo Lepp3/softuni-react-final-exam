@@ -26,6 +26,7 @@ export default {
 
         const result = {
             email: createdUser.email,
+            username: createdUser.username,
             authToken: token,
             userId: createdUser._id
         }
@@ -52,6 +53,7 @@ export default {
 
         const result = {
             email: user.email,
+            username: user.username,
             authToken: token,
             userId: user._id
         }

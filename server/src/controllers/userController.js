@@ -15,8 +15,8 @@ userController.post('/register', async (req,res,next)=>{
 
     try{
         const createdUser = await userService.register(userData);
-        const {email,authToken,userId} = createdUser;
-        res.status(201).json({email,authToken,userId});
+        const {email,username,authToken,userId} = createdUser;
+        res.status(201).json({email,username,authToken,userId});
     }catch(err){
         console.error(err.message);
         res.status(409);
@@ -33,8 +33,8 @@ userController.post('/login', async(req,res,next)=>{
 
     try{
         const loggedUser = await userService.login(userEmail,password);
-        const {email,authToken,userId} = loggedUser;
-        res.status(201).json({email,authToken,userId})
+        const {email,username,authToken,userId} = loggedUser;
+        res.status(201).json({email,username,authToken,userId})
     }catch(err){
         res.status(401);
         next(err);

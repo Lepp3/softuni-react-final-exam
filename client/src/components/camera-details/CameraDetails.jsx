@@ -1,7 +1,7 @@
 import { useContext, useEffect,useState,useRef } from 'react'
 import {useParams, Link, useNavigate} from 'react-router'
 import { UserContext } from '../../contexts/UserContext';
-import { useCamera, useDeleteCamera, useLikeCamera, usePostComment } from '../../api/cameraApi';
+import { useCamera, useDeleteCamera, useLikeCamera, usePostComment, useRemoveLiked } from '../../api/cameraApi';
 import SingleComment from './SingleComment';
 
 
@@ -16,6 +16,7 @@ export default function CameraDetails(){
     const [hasLiked,setLiked] = useState(false);
     const { postComment } = usePostComment()
     const [comments,setComments] = useState([]);
+    const { unlikeCamera } = useRemoveLiked()
     
     
 
@@ -59,6 +60,16 @@ export default function CameraDetails(){
        
        
        
+    };
+
+    const cameraUnlikeHandler = async () =>{
+        await unlikeCamera(cameraId);
+        setLiked(false);
+
+        setCamera(oldState => ({
+            ...oldState,
+            likedBy: oldState?.likedBy.filter(likedUsers=>likedUsers !== userId)
+           }));
     }
 
     const postCommentHandler = async (formData) =>{
@@ -111,7 +122,8 @@ export default function CameraDetails(){
                     <p>{camera.likedBy.length} person recommends this camera</p>
                     : <p>{camera.likedBy.length} people recommend this camera</p>
             : <></>}
-                {( !isOwner && !hasLiked && userId) && <div className='btn' onClick={likeCameraHandler}>Recommend this camera!</div>}
+                {( !isOwner && !hasLiked && userId) && <div className='btn' onClick={likeCameraHandler}>Recommend this camera</div>}
+                {( !isOwner && hasLiked && userId) && <div className='btn' onClick={cameraUnlikeHandler}>Remove recommendation</div>}
                 
         </div>
         <div id="commentSection">

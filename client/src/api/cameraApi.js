@@ -122,4 +122,17 @@ export const useLikeCamera = ()=>{
     return{
         likeCamera
     }
+};
+
+export const useRemoveLiked = ()=>{
+    const {request} = useAuth();
+
+    const unlikeCamera = (cameraId)=>{
+        const result = request.delete(`${baseUrl}/${cameraId}/like`);
+        return result
+    }
+
+    return{
+        unlikeCamera
+    }
 }

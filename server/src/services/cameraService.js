@@ -37,11 +37,15 @@ export default {
     async likeCamera(cameraId,userId){
         const camera = await Camera.findById(cameraId);
         const user = await User.findById(userId);
-        //todo implement self-like defense
-        //todo implement doulb-elike by id defense
+        if(camera.ownerId === user._id.toString()){
+            throw new Error('Owners cannot like their own content!');
+        }
+        if(camera.likedBy.includes(user._id.toString())){
+            throw new Error('Only one like per user allowed!');
+        }
         camera.likedBy.push(userId);
         user.likedPosts.push(camera._id);
-        user.save();
+        await user.save();
         return camera.save();
     },
     // async getComment(commentId){
@@ -49,6 +53,24 @@ export default {
     //     return camera.comments;
 
     // },
+    async unlikeCamera(cameraId,userId){
+        const camera = await Camera.findById(cameraId);
+        const user = await User.findById(userId);
+        if(!camera.likedBy.includes(user._id.toString())){
+            throw new Error('No like to remove');
+        }
+
+        console.log(cameraId,userId);
+        console.log('IZVIKVA SE');
+        const foundOne = camera.likedBy.find(likedId => likedId.toString() === userId.toString());
+        console.log(foundOne);
+
+        camera.likedBy = camera.likedBy.filter(likedUser => likedUser.toString() !== userId.toString());
+        user.likedPosts = user.likedPosts.filter(likedCamera => likedCamera.toString() !== cameraId.toString());
+        user.save();
+        return camera.save()
+
+    },
     async postComment(userId,cameraId,commentData){
         const camera = await Camera.findById(cameraId);
         

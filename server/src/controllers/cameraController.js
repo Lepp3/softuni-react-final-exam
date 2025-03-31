@@ -116,6 +116,21 @@ cameraController.post('/:cameraId/like', auth, async (req,res)=>{
     }
 });
 
+cameraController.delete('/:cameraId/like', auth, async(req,res)=>{
+    const cameraId = req.params.cameraId;
+    const userId = req.user.id;
+
+    try{
+        const removedLike = await cameraService.unlikeCamera(cameraId,userId);
+        if(!removedLike){
+            throw new Error('Failed to remove like');
+        }
+        res.status(200).json(removedLike);
+    }catch(err){
+        res.status(500).json(err.message);
+    }
+})
+
 
 cameraController.post('/:cameraId/comments', auth ,async (req,res)=>{
     const cameraId = req.params.cameraId;

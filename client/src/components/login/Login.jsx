@@ -1,5 +1,5 @@
 import {Link, useNavigate} from 'react-router'
-import {useActionState, useContext} from 'react'
+import {useActionState, useContext, useState} from 'react'
 
 import { useLogin } from '../../api/authApi';
 import { UserContext } from '../../contexts/UserContext';
@@ -10,16 +10,25 @@ export default function Login(){
     const navigate = useNavigate();
     const { userLoginHandler } = useContext(UserContext);
 
+    const [error,setError] = useState()
+
     const loginHandler = async (_, formData) =>{
         const data = Object.fromEntries(formData);
 
-       const result = await login(data.email,data.password);
+        try{
+            const result = await login(data.email,data.password);
 
-       userLoginHandler(result);
+            userLoginHandler(result);
 
-        navigate('/');
+            navigate('/');
         
         return data
+        }catch(err){
+            setError(err.message);
+            setTimeout(() => setError(null), 3000);
+        }
+
+       
     };
 
     const [_,loginAction,isPending] = useActionState(loginHandler, {emai:'', password: ''});
@@ -40,6 +49,7 @@ export default function Login(){
                 <span>If you don't have a profile click <Link to="/register">here</Link></span>
             </div>
             </form>
+            {error ? <div id="errorSection">{error}</div> : <></>}
         </section>
     )
 }

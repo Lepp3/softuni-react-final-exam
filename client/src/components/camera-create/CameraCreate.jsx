@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useCreateCamera } from "../../api/cameraApi";
 
 import {useNavigate} from 'react-router';
@@ -5,15 +6,23 @@ import {useNavigate} from 'react-router';
 export default function CameraCreate(){
 
     const navigate = useNavigate();
-    const { create } = useCreateCamera()
+    const { create } = useCreateCamera();
+    const [error,setError] = useState(null)
  
     const createHandler = async (formData) =>{
         const data = Object.fromEntries(formData);
 
-         await create(data);
-        
+        try{
 
-        navigate('/cameras');
+            await create(data);
+
+            navigate('/cameras');
+        }catch(err){
+            setError(err.message);
+            setTimeout(() => setError(null), 3000);
+        }
+
+        
     }
 
     return(
@@ -45,6 +54,7 @@ export default function CameraCreate(){
                 <input type="submit" className="btn submit" value="Create" />
 
             </form>
+            {error ? <div id="errorSection">{error}</div> : <></>} 
         </div>
     )
 }

@@ -10,7 +10,7 @@ export default function Login(){
     const navigate = useNavigate();
     const { userLoginHandler } = useContext(UserContext);
 
-    const [error,setError] = useState()
+    const [error,setError] = useState(null)
 
     const loginHandler = async (_, formData) =>{
         const data = Object.fromEntries(formData);

@@ -1,15 +1,23 @@
-import { useParams, useNavigate } from 'react-router'
+import { useParams, useNavigate, Navigate } from 'react-router'
 import { useCamera, useEditCamera } from "../../api/cameraApi";
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext';
 
 export default function CameraEdit(){
 
-    const {cameraId} = useParams()
+    const {cameraId} = useParams();
 
     const navigate = useNavigate();
 
     const { camera } = useCamera(cameraId);
 
-    const { edit } = useEditCamera()
+    const { edit } = useEditCamera();
+
+    const { userId } = useContext(UserContext);
+
+    if(camera.ownerId !== userId){
+        return <Navigate to="/cameras" replace/>
+    }
     
    
 

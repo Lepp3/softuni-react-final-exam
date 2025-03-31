@@ -1,11 +1,20 @@
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, Navigate} from "react-router";
 import { useEditUser, useGetUser } from "../../api/authApi"
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function EditProfile(){
         const { editUserProfile } = useEditUser();
-        const navigate = useNavigate()
-        const { fetchedUser } = useParams()
-        const { user } = useGetUser(fetchedUser)
+        const navigate = useNavigate();
+        const { fetchedUser } = useParams();
+        const { user } = useGetUser(fetchedUser);
+
+        const {userId} = useContext(UserContext);
+
+
+        if(user._id !== userId){
+            return <Navigate to="/" replace/>
+        }
        
 
         const submitEditAction = async (formData) =>{

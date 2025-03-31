@@ -12,13 +12,13 @@ import CameraCreate from './components/camera-create/CameraCreate'
 import CameraEdit from './components/camera-edit/CameraEdit'
 import CameraDetails from './components/camera-details/CameraDetails'
 import { UserContext } from './contexts/UserContext'
-import { useState } from 'react'
 import Logout from './components/logout/Logout'
 import EditProfile from './components/edit-profile/EditProfile'
+import usePersistedState from './hooks/usePersistedState'
 
 
 function App() {
-  const [authData,setAuth] = useState('');
+  const [authData,setAuth] = usePersistedState({});
 
   const userLoginHandler = (authData) =>{
     setAuth(authData)

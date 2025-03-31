@@ -10,11 +10,20 @@ export default function CameraCreate(){
     const [error,setError] = useState(null)
  
     const createHandler = async (formData) =>{
-        const data = Object.fromEntries(formData);
+        const {make,model,price,year,resolution,imageUrl,description} = Object.fromEntries(formData);
+
+        let isValid = make && model && price && year && resolution && imageUrl && description;
+
+        if(!isValid){
+            
+            setError('All fields are required!');
+            setTimeout(() => setError(null), 3000);
+            return;
+        }
 
         try{
 
-            await create(data);
+            await create({make,model,price,year,resolution,imageUrl,description});
 
             navigate('/cameras');
         }catch(err){

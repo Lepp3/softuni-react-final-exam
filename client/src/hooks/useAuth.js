@@ -21,6 +21,7 @@ const authData = useContext(UserContext);
 
     return{
         ...authData,
+        isAuthenticated: !!authData.authToken,
         request: {
             get: requestWrapper.bind(null,'GET'),
             post: requestWrapper.bind(null,'POST'),

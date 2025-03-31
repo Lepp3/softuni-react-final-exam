@@ -15,6 +15,9 @@ import { UserContext } from './contexts/UserContext'
 import Logout from './components/logout/Logout'
 import EditProfile from './components/edit-profile/EditProfile'
 import usePersistedState from './hooks/usePersistedState'
+import AuthGuard from './guards/AuthGuard'
+import GuestGuard from './guards/GuestGuard'
+import NotFound from './components/not-found/NotFound'
 
 
 function App() {
@@ -34,17 +37,21 @@ function App() {
     <Header/>
     <main id="main-content">
     <Routes>
-      <Route path='/' element={<Home/>}/>
+      <Route element={<GuestGuard/>}>
       <Route path='/login' element={<Login/>}/>
-      <Route path='/user/:fetchedUser' element={<ProfilePage/>}/>
-      <Route path='/user/:fetchedUser/edit' element={<EditProfile/>}/>   
-  
       <Route path='/register' element={<Register/>}/>
-      <Route path='/logout' element={<Logout/>}/>
+      </Route>
+      <Route path='/' element={<Home/>}/>
+      <Route path='/user/:fetchedUser' element={<ProfilePage/>}/>
       <Route path='/cameras' element={<Catalog/>}/>
-      <Route path='/cameras/:cameraId/details' element={<CameraDetails/>}/>
-      <Route path='/cameras/:cameraId/edit'element={<CameraEdit/>}/>
-      <Route path='/cameras/create' element={<CameraCreate/>}/>
+      <Route element={<AuthGuard/>}>
+        <Route path='/cameras/:cameraId/details' element={<CameraDetails/>}/>
+        <Route path='/cameras/:cameraId/edit'element={<CameraEdit/>}/>
+        <Route path='/cameras/create' element={<CameraCreate/>}/>
+        <Route path='/user/:fetchedUser/edit' element={<EditProfile/>}/> 
+        <Route path='/logout' element={<Logout/>}/>
+      </Route>
+      <Route path='*' element={<NotFound/>}/>
     </Routes>
     </main>
     <Footer/>

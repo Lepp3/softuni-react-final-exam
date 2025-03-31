@@ -60,11 +60,7 @@ export default {
             throw new Error('No like to remove');
         }
 
-        console.log(cameraId,userId);
-        console.log('IZVIKVA SE');
-        const foundOne = camera.likedBy.find(likedId => likedId.toString() === userId.toString());
-        console.log(foundOne);
-
+       
         camera.likedBy = camera.likedBy.filter(likedUser => likedUser.toString() !== userId.toString());
         user.likedPosts = user.likedPosts.filter(likedCamera => likedCamera.toString() !== cameraId.toString());
         user.save();

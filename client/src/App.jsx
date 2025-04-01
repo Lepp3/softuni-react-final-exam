@@ -18,6 +18,7 @@ import usePersistedState from './hooks/usePersistedState'
 import AuthGuard from './guards/AuthGuard'
 import GuestGuard from './guards/GuestGuard'
 import NotFound from './components/not-found/NotFound'
+import About from './components/about/About'
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
       <Route path='/' element={<Home/>}/>
       <Route path='/user/:fetchedUser' element={<ProfilePage/>}/>
       <Route path='/cameras' element={<Catalog/>}/>
+      <Route path='/about' element={<About/>}/>
       <Route path='/cameras/:cameraId/details' element={<CameraDetails/>}/>
       <Route element={<AuthGuard/>}>
         <Route path='/cameras/:cameraId/edit'element={<CameraEdit/>}/>

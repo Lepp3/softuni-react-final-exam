@@ -11,8 +11,8 @@ export default function CatalogItem(camera){
                     <h2>{camera.make} {camera.model}</h2>
                     <p>{camera.price} $</p>
                     <p>Posted by <Link to={`/user/${user._id}`}>{user.username}</Link></p>
-                    <p>{camera.likedBy?.length} likes</p>
-                    <p>{camera.comments?.length} comments</p>
+                    <p>{camera.likedBy?.length} recommendations</p>
+                    <p>{camera.comments?.length} comment/s</p>
                     <Link to={`/cameras/${camera._id}/details`}>Details</Link>
                     </div>
     )

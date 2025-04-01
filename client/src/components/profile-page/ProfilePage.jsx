@@ -31,7 +31,7 @@ export default function ProfilePage(){
             </div>:
                 <>  </>)}
                 <div id="likedPosts">
-                    <h3>LIKED POSTS</h3>
+                    <h3>Recommended Cameras</h3>
                     {user.likedPosts?.length > 0 ? 
                         user.likedPosts.map(post=> <div key={post._id}><CatalogItem {...post}/></div>) :
                         <p>No liked posts yet</p>}

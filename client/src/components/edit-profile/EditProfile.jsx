@@ -7,14 +7,19 @@ export default function EditProfile(){
         const { editUserProfile } = useEditUser();
         const navigate = useNavigate();
         const { fetchedUser } = useParams();
-        const { user } = useGetUser(fetchedUser);
+        const { user,loading } = useGetUser(fetchedUser);
         const [error,setError] = useState(null)
         const {userId} = useContext(UserContext);
 
 
-        if(user._id !== userId){
-            return <Navigate to="/" replace/>
+        if(loading){
+            return <p>Loading info...</p>
         }
+
+        if(user._id !== userId){
+            return <Navigate to="/" replace />;
+        }
+       
        
 
         const submitEditAction = async (formData) =>{

@@ -18,6 +18,7 @@ export default function CameraEdit(){
     const [error,setError] = useState(null);
 
     if(camera.ownerId !== userId){
+        console.log(camera.ownerId, userId);
         return <Navigate to="/cameras" replace/>
     }
     

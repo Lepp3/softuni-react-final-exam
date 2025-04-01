@@ -91,20 +91,23 @@ export const useLogout = () =>{
 
 export const useGetUser = (userId) =>{
     const [user,setUser] = useState({});
+    const [loading,setLoading] = useState(true);
     
 
     useEffect(()=>{
+        setLoading(true)
         requester.get(`${baseUrl}/${userId}`)
         .then(result=>{
             setUser(result);
         })
+        .finally(()=>setLoading(false))
 
         
     },[userId]);
 
     return{
         user,
-        setUser
+        loading
     }
 };
 

@@ -9,7 +9,7 @@ export default function CameraEdit(){
 
     const navigate = useNavigate();
 
-    const { camera } = useCamera(cameraId);
+    const { camera, loading} = useCamera(cameraId);
 
     const { edit } = useEditCamera();
 
@@ -17,8 +17,12 @@ export default function CameraEdit(){
 
     const [error,setError] = useState(null);
 
+    if(loading){
+        return <p>Loading camera information</p>
+    }
+
     if(camera.ownerId !== userId){
-        console.log(camera.ownerId, userId);
+        
         return <Navigate to="/cameras" replace/>
     }
     

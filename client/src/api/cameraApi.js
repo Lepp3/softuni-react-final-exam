@@ -42,18 +42,22 @@ export const useCameras = () =>{
 
 export const useCamera = (cameraId) =>{
     const [camera,setCamera] = useState({});
+    const [loading,setLoading] = useState(true);
 
 
     useEffect(()=>{
+        setLoading(true);
         requester.get(`${baseUrl}/${cameraId}`)
         .then(result=>{
             setCamera(result);
         })
+        .finally(()=>setLoading(false));
     },[cameraId]);
 
     return{
         camera,
-        setCamera
+        setCamera,
+        loading
     }
 };
 

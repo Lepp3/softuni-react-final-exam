@@ -34,7 +34,8 @@ export const useCameras = () =>{
     },[]);
 
     return {
-        cameras
+        cameras,
+        setCameras
     }
 };
 

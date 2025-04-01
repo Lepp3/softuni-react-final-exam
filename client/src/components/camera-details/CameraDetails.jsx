@@ -126,8 +126,12 @@ export default function CameraDetails(){
         <div>
         <h1>{camera.make}</h1>
         <h2>{camera.model}</h2>
-        <img src={imageSrc} alt='Camera Image' onError={()=>
-            setImageSrc(defaultCameraPhoto)}/>
+        <img 
+            src={imageSrc} 
+            alt='Camera Image' 
+            onError={()=>
+            setImageSrc(defaultCameraPhoto)}
+            />
         <p>Price: {camera.price} $</p>
         <p>Created in: {camera.year}</p>
         <p>Resolution: {camera.resolution}</p>
@@ -170,15 +174,23 @@ export default function CameraDetails(){
 
             <label htmlFor="content">Your comment:</label>
             <textarea  id="content" name="content" rows="3" cols="20"
-            onChange={handleChange} onBlur={handleTouch} value={form.value}
-            className={(touched.content && !isCommentValid(form.content)) ? 'invalid' : ''}
+                onChange={handleChange} 
+                onBlur={handleTouch} 
+                value={form.value}
+                className={(touched.content && !isCommentValid(form.content)) ? 'invalid' : ''}
             ></textarea>
             {(touched.content && !isCommentValid(form.content)) && <p>Minimum comment length is 2 characters!</p>}
-            <input type="submit" className="btn submit" value="Post comment" disabled={!isCommentFilled()}/>
-            {error ? <p>{error}</p> : <></>}
+
+            <input 
+                type="submit" 
+                className="btn submit"
+                value="Post comment" 
+                disabled={!isCommentFilled()}/>
+            {error ? 
+            <p>{error}</p> :
+             <></>}
         </form> :
         <></>}
-        
     </div>
     </div>}
         

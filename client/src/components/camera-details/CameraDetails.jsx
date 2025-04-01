@@ -1,4 +1,4 @@
-import { useContext, useEffect,useState,useRef } from 'react'
+import { useContext, useEffect,useState,useRef, act } from 'react'
 import {useParams, Link, useNavigate} from 'react-router'
 import { UserContext } from '../../contexts/UserContext';
 import { useCamera, useDeleteCamera, useLikeCamera, usePostComment, useRemoveLiked } from '../../api/cameraApi';
@@ -22,6 +22,7 @@ export default function CameraDetails(){
     const [touched,setTouched] = useState({});
     const defaultCameraPhoto = "/public/images/stock-camera.jpg";
     const [imageSrc,setImageSrc] = useState(camera.imageUrl || defaultCameraPhoto);
+    const [actionError,setActionError] = useState(null)
 
     const handleChange = (e)=>{
         
@@ -64,19 +65,36 @@ export default function CameraDetails(){
             return
         }
 
-        await deleteCamera(cameraId);
-        navigate('/cameras');
+        try{
+            await deleteCamera(cameraId);
+            navigate('/cameras');
+        }catch(err){
+            setActionError(err.message);
+            setTimeout(() => {
+                setActionError(null)
+            }, 3000);
+        }
+
+        
 
     }
 
     const likeCameraHandler = async () =>{
-       await likeCamera(cameraId);
-       setLiked(true);
-       
-       setCamera(oldState => ({
-        ...oldState,
-        likedBy: [...oldState.likedBy, userId]
-       }))
+      
+       try{
+            await likeCamera(cameraId);
+            setLiked(true);
+        
+            setCamera(oldState => ({
+             ...oldState,
+            likedBy: [...oldState.likedBy, userId]
+        }));
+        }catch(err){
+            setActionError(err.message);
+            setTimeout(() => {
+            setActionError(null)
+                }, 3000);
+    }
        
        
        
@@ -90,6 +108,23 @@ export default function CameraDetails(){
             ...oldState,
             likedBy: oldState?.likedBy.filter(likedUsers=>likedUsers !== userId)
            }));
+
+           
+
+           try{
+            await unlikeCamera(cameraId);
+            setLiked(false);
+
+            setCamera(oldState => ({
+            ...oldState,
+            likedBy: oldState?.likedBy.filter(likedUsers=>likedUsers !== userId)
+           }));
+        }catch(err){
+            setActionError(err.message);
+            setTimeout(() => {
+            setActionError(null)
+                }, 3000);
+    }
     }
 
     const postCommentHandler = async (formData) =>{
@@ -156,6 +191,7 @@ export default function CameraDetails(){
         : <></>}
             {( !isOwner && !hasLiked && userId) && <div className='btn' onClick={likeCameraHandler}>Recommend this camera</div>}
             {( !isOwner && hasLiked && userId) && <div className='btn' onClick={cameraUnlikeHandler}>Remove recommendation</div>}
+            {actionError ? <div id='actionError'>{actionError}</div> : <></>}
             
     </div>
     <div id="commentSection">

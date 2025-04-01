@@ -53,11 +53,7 @@ export default function Register(){
     const registerHandler = async (formData) =>{
         const {email,username,password,rePassword} = Object.fromEntries(formData);
         
-        if(password !== rePassword){
-            setError('Password mismatch!');
-            setTimeout(() => setError(null), 3000);
-            return;
-        }
+       
 
         
         try{

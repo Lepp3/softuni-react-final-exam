@@ -44,8 +44,8 @@ function App() {
       <Route path='/' element={<Home/>}/>
       <Route path='/user/:fetchedUser' element={<ProfilePage/>}/>
       <Route path='/cameras' element={<Catalog/>}/>
+      <Route path='/cameras/:cameraId/details' element={<CameraDetails/>}/>
       <Route element={<AuthGuard/>}>
-        <Route path='/cameras/:cameraId/details' element={<CameraDetails/>}/>
         <Route path='/cameras/:cameraId/edit'element={<CameraEdit/>}/>
         <Route path='/cameras/create' element={<CameraCreate/>}/>
         <Route path='/user/:fetchedUser/edit' element={<EditProfile/>}/> 

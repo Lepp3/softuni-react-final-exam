@@ -20,6 +20,8 @@ export default function CameraDetails(){
     const [error,setError] = useState(null);
     const [form,setForm] = useState({content: ''});
     const [touched,setTouched] = useState({});
+    const defaultCameraPhoto = "/public/images/stock-camera.jpg";
+    const [imageSrc,setImageSrc] = useState(camera.imageUrl || defaultCameraPhoto);
 
     const handleChange = (e)=>{
         
@@ -39,16 +41,17 @@ export default function CameraDetails(){
 
     useEffect(()=>{
         
-        if(userId && camera?.ownerId){
+        if(userId && camera?.ownerId && camera?.imageUrl){
             setOwner(userId === camera.ownerId);
             setLiked(camera.likedBy.includes(userId));
-            
-           
         }
         if(camera?.comments){
             setComments(camera.comments);
         }
-    },[userId,camera?.ownerId,camera?.likedBy,camera?.comments])
+        if(camera?.imageUrl){
+            setImageSrc(camera.imageUrl);
+        }
+    },[userId,camera?.ownerId,camera?.likedBy,camera?.comments, camera?.imageUrl])
     
     
    
@@ -119,63 +122,66 @@ export default function CameraDetails(){
 
     return(
        <section>
+        {!camera ? <p>Loading camera info...</p> : 
         <div>
-            <h1>{camera.make}</h1>
-            <h2>{camera.model}</h2>
-            <img src={camera.imageUrl} alt='Camera Image'/>
-            <p>Price: {camera.price} $</p>
-            <p>Created in: {camera.year}</p>
-            <p>Resolution: {camera.resolution}</p>
-            <div>
-                <h3>Description</h3>
-                <p>{camera.description}</p>
+        <h1>{camera.make}</h1>
+        <h2>{camera.model}</h2>
+        <img src={imageSrc} alt='Camera Image' onError={()=>
+            setImageSrc(defaultCameraPhoto)}/>
+        <p>Price: {camera.price} $</p>
+        <p>Created in: {camera.year}</p>
+        <p>Resolution: {camera.resolution}</p>
+        <div>
+            <h3>Description</h3>
+            <p>{camera.description}</p>
+        </div>
+        
+        <div className='buttons'>
+            {isOwner ? 
+            <div className="ownerButtons">
+            <div className='btn'> <Link to={`/cameras/${cameraId}/edit`}>Edit</Link></div>
+            <div className='btn' onClick={cameraDeleteHandler}> Delete</div>
             </div>
+            :
+            <></>
+            }   
+            {camera?.likedBy?.length > 0 ?
+            camera.likedBy.length === 1 ?
+                <p>{camera.likedBy.length} person recommends this camera</p>
+                : <p>{camera.likedBy.length} people recommend this camera</p>
+        : <></>}
+            {( !isOwner && !hasLiked && userId) && <div className='btn' onClick={likeCameraHandler}>Recommend this camera</div>}
+            {( !isOwner && hasLiked && userId) && <div className='btn' onClick={cameraUnlikeHandler}>Remove recommendation</div>}
             
-            <div className='buttons'>
-                {isOwner ? 
-                <div className="ownerButtons">
-                <div className='btn'> <Link to={`/cameras/${cameraId}/edit`}>Edit</Link></div>
-                <div className='btn' onClick={cameraDeleteHandler}> Delete</div>
+    </div>
+    <div id="commentSection">
+        <section>
+            {comments.length > 0 ?
+             <div id="existingComments">
+                {comments.map(comment=><SingleComment key={comment._id} {...comment} onDelete={handleDelete} isPublicationOwner={isOwner}/>)}
                 </div>
                 :
-                <></>
-                }   
-                {camera?.likedBy?.length > 0 ?
-                camera.likedBy.length === 1 ?
-                    <p>{camera.likedBy.length} person recommends this camera</p>
-                    : <p>{camera.likedBy.length} people recommend this camera</p>
-            : <></>}
-                {( !isOwner && !hasLiked && userId) && <div className='btn' onClick={likeCameraHandler}>Recommend this camera</div>}
-                {( !isOwner && hasLiked && userId) && <div className='btn' onClick={cameraUnlikeHandler}>Remove recommendation</div>}
-                
-        </div>
-        <div id="commentSection">
-            <section>
-                {comments.length > 0 ?
-                 <div id="existingComments">
-                    {comments.map(comment=><SingleComment key={comment._id} {...comment} onDelete={handleDelete} isPublicationOwner={isOwner}/>)}
-                    </div>
-                    :
-                    <p>No comments yet</p>
-                    }
-            </section>
+                <p>No comments yet</p>
+                }
+        </section>
 
-        {userId ? <form action={postCommentHandler}>
-                <h1>Post a comment</h1>
+    {userId ? <form action={postCommentHandler}>
+            <h1>Post a comment</h1>
 
-                <label htmlFor="content">Your comment:</label>
-                <textarea  id="content" name="content" rows="3" cols="20"
-                onChange={handleChange} onBlur={handleTouch} value={form.value}
-                className={(touched.content && !isCommentValid(form.content)) ? 'invalid' : ''}
-                ></textarea>
-                {(touched.content && !isCommentValid(form.content)) && <p>Minimum comment length is 2 characters!</p>}
-                <input type="submit" className="btn submit" value="Post comment" disabled={!isCommentFilled()}/>
-                {error ? <p>{error}</p> : <></>}
-            </form> :
-            <></>}
-            
-        </div>
-        </div>
+            <label htmlFor="content">Your comment:</label>
+            <textarea  id="content" name="content" rows="3" cols="20"
+            onChange={handleChange} onBlur={handleTouch} value={form.value}
+            className={(touched.content && !isCommentValid(form.content)) ? 'invalid' : ''}
+            ></textarea>
+            {(touched.content && !isCommentValid(form.content)) && <p>Minimum comment length is 2 characters!</p>}
+            <input type="submit" className="btn submit" value="Post comment" disabled={!isCommentFilled()}/>
+            {error ? <p>{error}</p> : <></>}
+        </form> :
+        <></>}
+        
+    </div>
+    </div>}
+        
        </section>
     )
 }

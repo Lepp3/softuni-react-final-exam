@@ -1,6 +1,6 @@
 import { useParams, useNavigate, Navigate } from 'react-router'
 import { useCamera, useEditCamera } from "../../api/cameraApi";
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 
 export default function CameraEdit(){
@@ -15,6 +15,8 @@ export default function CameraEdit(){
 
     const { userId } = useContext(UserContext);
 
+    const [error,setError] = useState(null);
+
     if(camera.ownerId !== userId){
         return <Navigate to="/cameras" replace/>
     }
@@ -24,10 +26,17 @@ export default function CameraEdit(){
     const editHandler = async (formData) =>{
         const data = Object.fromEntries(formData);
 
-        await edit(cameraId,data);
+        try{
+            await edit(cameraId,data);
+            navigate(`/cameras/${cameraId}/details`);
+        }catch(err){
+            setError(err.message);
+            setTimeout(() => {
+                setError(null)
+            }, 3000);
+        }
 
-    
-        navigate(`/cameras/${cameraId}/details`);
+        
     }
 
     return(
@@ -57,6 +66,7 @@ export default function CameraEdit(){
                 <input type="text" id="description" name="description" defaultValue={camera.description} />
 
                 <input type="submit" className="btn submit" value="Edit" />
+                {error? <p>{error}</p> : <></>}
 
             </form>
         </div>

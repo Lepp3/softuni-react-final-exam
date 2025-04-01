@@ -102,6 +102,22 @@ input.invalid:focus {
   box-shadow: 0 0 4px rgba(255, 0, 0, 0.6);
 }
 
+textarea{
+  padding: 8px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border 0.2s ease-in-out;
+}
+
+textarea.invalid{
+  border-color: red;
+}
+
+textarea.invalid:focus{
+  box-shadow: 0 0 4px rgba(255, 0, 0, 0.6);
+}
+
 img {
   max-width: 150px;
   max-height: 150px;

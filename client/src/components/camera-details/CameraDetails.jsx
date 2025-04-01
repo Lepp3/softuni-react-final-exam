@@ -16,7 +16,24 @@ export default function CameraDetails(){
     const [hasLiked,setLiked] = useState(false);
     const { postComment } = usePostComment()
     const [comments,setComments] = useState([]);
-    const { unlikeCamera } = useRemoveLiked()
+    const { unlikeCamera } = useRemoveLiked();
+    const [error,setError] = useState(null);
+    const [form,setForm] = useState({content: ''});
+    const [touched,setTouched] = useState({});
+
+    const handleChange = (e)=>{
+        
+        setForm({...form,[e.target.name]: e.target.value});
+    }
+
+    const handleTouch = (e) =>{
+        
+        setTouched({...touched,[e.target.name]: true});
+    }
+
+
+    const isCommentValid = (comment) => comment.length >= 2;
+    const isCommentFilled = () => ((Object.keys(touched).length === Object.keys(form).length) && isCommentValid(form.content));
     
     
 
@@ -74,15 +91,21 @@ export default function CameraDetails(){
 
     const postCommentHandler = async (formData) =>{
         const commentData = Object.fromEntries(formData);
-        const result = await postComment(cameraId, commentData);
-        if(!result){
-            return
-        }
         
-        setCamera(oldState =>({
-            ...oldState,
-            comments: [...oldState?.comments ,result]
-        }))
+
+        try{
+            const result = await postComment(cameraId, commentData);
+            setCamera(oldState =>({
+                ...oldState,
+                comments: [...oldState?.comments ,result]
+            }))
+        }catch(err){
+            setError(err.message);
+            setTimeout(() => setError(null), 3000);
+        }
+       
+        
+        
         
     }
 
@@ -141,8 +164,13 @@ export default function CameraDetails(){
                 <h1>Post a comment</h1>
 
                 <label htmlFor="content">Your comment:</label>
-                <textarea  id="content" name="content" rows="5" cols="33"></textarea>
-                <input type="submit" className="btn submit" value="Post comment" />
+                <textarea  id="content" name="content" rows="3" cols="20"
+                onChange={handleChange} onBlur={handleTouch} value={form.value}
+                className={(touched.content && !isCommentValid(form.content)) ? 'invalid' : ''}
+                ></textarea>
+                {(touched.content && !isCommentValid(form.content)) && <p>Minimum comment length is 2 characters!</p>}
+                <input type="submit" className="btn submit" value="Post comment" disabled={!isCommentFilled()}/>
+                {error ? <p>{error}</p> : <></>}
             </form> :
             <></>}
             

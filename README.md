@@ -5,11 +5,8 @@
 This project is a web application that allows users to post, comment on, and recommend/remove recommendation on cameras posted by other users. Guests can browse the camera catalog, view individual camera details, and see user profiles along with their posted and recommended camera. 
 ## Used Libraries 
 
-### Frontend 
-
 ### Frontend
 - **React v19**: A library for building user interfaces.
-- **uuidv4**: For generating unique IDs.
 
 ### Backend
 - **Node.js**: For server-side development.

@@ -2,10 +2,11 @@ import { Link } from "react-router";
 import { useGetUser } from "../../api/authApi";
 import styles from "./CatalogItem.module.css";
 import { useState } from "react";
+import formatDate from "../../utils/dateFormatter.js";
 
 export default function CatalogItem(camera){
 
-    const { user } = useGetUser(camera.ownerId);
+    const { user } = useGetUser(camera?.ownerId);
     const stockCamera = '/images/stock-camera.jpg';
     const [imageSrc,setImageSrc] = useState(camera.imageUrl || stockCamera);
 
@@ -23,7 +24,7 @@ export default function CatalogItem(camera){
             </div>
             <div className={styles.shortInfo}>
             <p>Price: {camera.price} $</p>
-            <p className={styles.postDate}>Posted on {camera.createdAt}</p>
+            <p className={styles.postDate}>Posted on {formatDate(camera.createdAt)}</p>
             </div>
             <div className={styles.metrics}>
                 <div className={styles.commentsAndLikes}>

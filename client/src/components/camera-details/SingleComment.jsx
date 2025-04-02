@@ -3,12 +3,15 @@ import { useGetUser } from "../../api/authApi"
 import { useDeleteComment } from "../../api/cameraApi";
 import { UserContext } from "../../contexts/UserContext";
 import { useParams } from "react-router";
+import styles from './SingleComment.module.css';
+import formatDate from "../../utils/dateFormatter";
 
 
 export default function SingleComment({
     _id,
     ownerId,
     content,
+    createdAt,
     onDelete,
     isPublicationOwner}){ 
 
@@ -34,14 +37,15 @@ export default function SingleComment({
     }
     
         return(
-            <div id="singleComment">
-                {(userId === ownerId || isPublicationOwner) && <div id="commentButtons">
-                    <button onClick={deleteCommentHandler}>Delete this comment</button>
+            <div className={styles.singleComment}>
+                {(userId === ownerId || isPublicationOwner) && <div className={styles.commentButtons}>
+                    <div className={styles.ownerButton} onClick={deleteCommentHandler}>Delete this comment</div>
                 </div>}
                 
-            <div id="commentContent">
-                <p>Author: {user?.username}</p>
-                <p>Said: {content}</p>
+            <div className={styles.commentContent}>
+                <div className={styles.metaData}><p>{user?.username} on: 
+                     </p> <p>{formatDate(createdAt)}</p></div>
+                <p className={styles.content}>{content}</p>
             </div>
             </div>
         )

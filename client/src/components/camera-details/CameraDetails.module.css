@@ -1,0 +1,137 @@
+.mainPart{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    /* width: 100%; */
+    justify-content: center;
+    padding: 10px;
+}
+
+.infoColumn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.allContent{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 60%;
+    padding: 2rem;
+    gap: 20px;
+}
+
+.heading{
+    align-self: flex-start;
+    font-size: 30px;
+}
+
+.heading h2{
+    align-self: flex-start;
+}
+
+.heading a:hover{
+    text-decoration: underline;
+}
+
+.controlButtons{
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    gap: 10px;
+    font-weight: 500;
+}
+
+.imgHolder{
+    /* align-self: flex-start; */
+    overflow: hidden;
+    width: 40%;
+}
+
+.imgHolder img{
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 10px;
+    object-fit: fill;
+}
+
+.description{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 30%;
+    max-width: 40%;
+}
+
+.description p{
+    width: 100%;  
+    height: 200px; 
+    overflow: auto; 
+    word-wrap: break-word;
+}
+
+.postDate{
+    font-size: 16px;
+    font-style: italic;
+    display: flex;
+    gap: 5px;
+}
+
+.ownerButton{
+    border: 2px solid white;
+    padding: 5px 8px;
+    border-radius: 8px;
+    min-width: 25px;
+    text-align: center;
+}
+
+.ownerButton:hover{
+    color:#242424;
+    background-color: #fff;
+}
+
+.imgAndDesc{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.commentSection{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    padding: 10px;
+    flex-wrap: wrap;
+}
+
+.commentSection h3{
+    align-self: center;
+}
+
+.postedComments{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.mainForm{
+    display: flex;
+    flex-direction: column;
+}
+
+.commentInput{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.commentInput input[type="submit"]{
+    width: 85%;
+    align-self: center;
+    font-size: 1.2em;
+}
+

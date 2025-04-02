@@ -1,0 +1,45 @@
+.singleComment{
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 50%;
+    background-color: #2C2C2C;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+
+.ownerButton{
+    border: 2px solid white;
+    padding: 5px 8px;
+    border-radius: 8px;
+    min-width: 25px;
+    text-align: center;
+    
+}
+
+.commentButtons{
+    width: 20%;
+    align-self: flex-end;
+}
+
+.ownerButton:hover{
+    color:#242424;
+    background-color: #fff;
+}
+
+.commentContent{
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.metaData{
+    display: flex;
+}
+
+.content{
+    font-size: 1.2em;
+}

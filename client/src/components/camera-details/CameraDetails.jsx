@@ -1,8 +1,10 @@
-import { useContext, useEffect,useState,useRef, act } from 'react'
-import {useParams, Link, useNavigate} from 'react-router'
+import { useContext, useEffect,useState } from 'react'
+import {useParams, Link, useNavigate} from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
 import { useCamera, useDeleteCamera, useLikeCamera, usePostComment, useRemoveLiked } from '../../api/cameraApi';
 import SingleComment from './SingleComment';
+import styles from './CameraDetails.module.css';
+import { useGetUser } from '../../api/authApi';
 
 
 export default function CameraDetails(){
@@ -156,30 +158,43 @@ export default function CameraDetails(){
     }
 
     return(
-       <section>
-        {!camera ? <p>Loading camera info...</p> : 
         <div>
-        <h1>{camera.make}</h1>
-        <h2>{camera.model}</h2>
+       <section className={styles.frame}>
+        {!camera ? <p>Loading camera info...</p> : 
+        <div className={styles.mainPart}>
+            <div className={styles.infoColumn}>
+            <div className={styles.allContent}>
+            <div className={styles.heading}>
+            <h2>{camera.make} {camera.model}</h2>
+            <div className={styles.postDate}>
+              <Link to={`/user/${camera.ownerId}`}>Visit the author's page</Link>
+                </div>
+                <div className={styles.information}>
+                <p>Resolution: {camera.resolution}</p>
+                <p>Price: {camera.price} $</p>
+                <p>Year of model: {camera.year}</p>
+             </div>
+        </div>
+        </div>
+        <div className={styles.imgAndDesc}>
+        <div className={styles.imgHolder}>
         <img 
             src={imageSrc} 
             alt='Camera Image' 
             onError={()=>
             setImageSrc(defaultCameraPhoto)}
             />
-        <p>Price: {camera.price} $</p>
-        <p>Created in: {camera.year}</p>
-        <p>Resolution: {camera.resolution}</p>
-        <div>
-            <h3>Description</h3>
+        </div>
+        <div className={styles.description}>
+            <h3>Description:</h3>
             <p>{camera.description}</p>
         </div>
-        
-        <div className='buttons'>
+        <div></div>
+        <div className={styles.actionButtons}>
             {isOwner ? 
-            <div className="ownerButtons">
-            <div className='btn'> <Link to={`/cameras/${cameraId}/edit`}>Edit</Link></div>
-            <div className='btn' onClick={cameraDeleteHandler}> Delete</div>
+            <div className={styles.controlButtons}>
+            <div className={styles.ownerButton}> <Link to={`/cameras/${cameraId}/edit`}>Edit</Link></div>
+            <div className={styles.ownerButton} onClick={cameraDeleteHandler}> Delete</div>
             </div>
             :
             <></>
@@ -188,48 +203,56 @@ export default function CameraDetails(){
             camera.likedBy.length === 1 ?
                 <p>{camera.likedBy.length} person recommends this camera</p>
                 : <p>{camera.likedBy.length} people recommend this camera</p>
-        : <></>}
-            {( !isOwner && !hasLiked && userId) && <div className='btn' onClick={likeCameraHandler}>Recommend this camera</div>}
-            {( !isOwner && hasLiked && userId) && <div className='btn' onClick={cameraUnlikeHandler}>Remove recommendation</div>}
+        : <p>Be the first to recommend this camera</p>}
+            {( !isOwner && !hasLiked && userId) && <div className={styles.ownerButton} onClick={likeCameraHandler}>Recommend this camera</div>}
+            {( !isOwner && hasLiked && userId) && <div className={styles.ownerButton} onClick={cameraUnlikeHandler}>Remove recommendation</div>}
             {actionError ? <div id='actionError'>{actionError}</div> : <></>}
             
     </div>
-    <div id="commentSection">
+        </div>
+            </div>
+    <div className={styles.commentSection}>
+        <h3>Comments:</h3>
         <section>
             {comments.length > 0 ?
-             <div id="existingComments">
+             <div className={styles.postedComments}>
                 {comments.map(comment=><SingleComment key={comment._id} {...comment} onDelete={handleDelete} isPublicationOwner={isOwner}/>)}
                 </div>
                 :
-                <p>No comments yet</p>
+                <p className={styles.postedComments}>No comments yet</p>
                 }
         </section>
-
-    {userId ? <form action={postCommentHandler}>
+    </div>
+    <div className={styles.commentInput}>
+    {userId ? <div className={styles.commentForm}><form action={postCommentHandler}>
             <h1>Post a comment</h1>
-
-            <label htmlFor="content">Your comment:</label>
+            <div className={styles.mainForm}>
+            <label htmlFor="content"><p>Your comment:</p></label>
             <textarea  id="content" name="content" rows="3" cols="20"
                 onChange={handleChange} 
                 onBlur={handleTouch} 
                 value={form.value}
                 className={(touched.content && !isCommentValid(form.content)) ? 'invalid' : ''}
             ></textarea>
-            {(touched.content && !isCommentValid(form.content)) && <p>Minimum comment length is 2 characters!</p>}
-
+            
             <input 
                 type="submit" 
                 className="btn submit"
                 value="Post comment" 
                 disabled={!isCommentFilled()}/>
+                </div>
+                {(touched.content && !isCommentValid(form.content)) && <p>Minimum comment length is 2 characters!</p>}
+                
             {error ? 
-            <p>{error}</p> :
+            <p className={styles.errorSpace}>{error}</p> :
              <></>}
-        </form> :
+        </form>
+        </div>:
         <></>}
     </div>
     </div>}
         
        </section>
+       </div>
     )
 }

@@ -42,9 +42,9 @@
 }
 
 .imgHolder img{
-    height: 250px;
-    width: 250px;
-    border-radius: 10px;
+    height: 250px !important;
+    width: 250px !important;
+    border-radius: 10px !important;
 }
 
 .shortInfo{

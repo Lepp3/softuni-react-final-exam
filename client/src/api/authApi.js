@@ -92,6 +92,9 @@ export const useLogout = () =>{
 export const useGetUser = (userId) =>{
     const [user,setUser] = useState({});
     const [loading,setLoading] = useState(true);
+    if(!userId){
+        return
+    }
     
 
     useEffect(()=>{
@@ -109,6 +112,8 @@ export const useGetUser = (userId) =>{
         user,
         loading
     }
+
+    
 };
 
 export const useEditUser = () =>{

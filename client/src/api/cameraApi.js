@@ -25,17 +25,20 @@ export const useCreateCamera = () =>{
 
 export const useCameras = () =>{
     const [cameras,setCameras] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(()=>{
+        setLoading(true);
         requester.get(baseUrl)
         .then(result=>{
             setCameras(result);
-        })
+        }).finally(setLoading(false))
     },[]);
 
     return {
         cameras,
-        setCameras
+        setCameras,
+        loading
     }
 };
 

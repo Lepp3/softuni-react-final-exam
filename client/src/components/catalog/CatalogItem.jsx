@@ -1,15 +1,21 @@
 import { Link } from "react-router";
 import { useGetUser } from "../../api/authApi";
 import styles from "./CatalogItem.module.css";
+import { useState } from "react";
 
 export default function CatalogItem(camera){
 
     const { user } = useGetUser(camera.ownerId);
+    const stockCamera = '/images/stock-camera.jpg';
+    const [imageSrc,setImageSrc] = useState(camera.imageUrl || stockCamera);
 
     return(
         <Link to={`/cameras/${camera._id}/details`}> <div className={styles.mainFrame}>
             <div className={styles.imageHolder}>
-                <img src={camera.imageUrl} alt="Camera Image"/>
+                <img src={imageSrc} 
+                alt="Camera Image"
+                onError={()=>setImageSrc(stockCamera)}
+                />
             </div>
             <div className={styles.headings}>
                     <h2>{camera.make} {camera.model}</h2>

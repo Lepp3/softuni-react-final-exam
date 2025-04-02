@@ -1,0 +1,82 @@
+.mainFrame{
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    height: 460px;
+    width: 450px;
+    cursor:pointer;
+    background-color: #3d3934;
+}
+
+.headings{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.headings div{
+    display: flex;
+    gap: 3px;
+    text-align: center;
+    align-self: center;
+    font-size: 1.2em;
+}
+
+.headings h2{
+    font-size: 1.8rem;
+}
+
+.headings p a:hover{
+    text-decoration: underline;
+    cursor: pointer;
+    color: #535bf2;
+      
+}
+
+.imgHolder{
+    overflow: hidden;
+}
+
+.imgHolder img{
+    height: 250px;
+    width: 250px;
+    border-radius: 10px;
+}
+
+.shortInfo{
+    font-style: italic;
+    font-size: 1.3em;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.metrics{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-self: flex-end;
+    margin-top: 10px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.postDate{
+    flex: 0 0 100%;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.commentsAndLikes{
+    display: flex;
+    font-size: 18px;
+    font-weight: 600;
+    gap: 10px;
+    
+}

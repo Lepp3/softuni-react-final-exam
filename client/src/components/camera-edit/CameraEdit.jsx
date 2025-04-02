@@ -80,7 +80,7 @@ export default function CameraEdit() {
         <div className={styles.headers}>
           <h1>Edit camera</h1>
         </div>
-
+        <div className={styles.groups}>
         <div className={styles.formGroup}>
           <label htmlFor="make">Make:</label>
           <input
@@ -156,6 +156,7 @@ export default function CameraEdit() {
             value={formData.description}
             onChange={handleInputChange}
           />
+        </div>
         </div>
 
         <input

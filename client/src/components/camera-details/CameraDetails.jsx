@@ -20,7 +20,7 @@ export default function CameraDetails(){
     const [error,setError] = useState(null);
     const [form,setForm] = useState({content: ''});
     const [touched,setTouched] = useState({});
-    const defaultCameraPhoto = "/public/images/stock-camera.jpg";
+    const defaultCameraPhoto = "/images/stock-camera.jpg";
     const [imageSrc,setImageSrc] = useState(camera.imageUrl || defaultCameraPhoto);
     const [actionError,setActionError] = useState(null)
 

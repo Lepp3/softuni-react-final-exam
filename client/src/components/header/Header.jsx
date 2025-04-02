@@ -9,7 +9,7 @@ export default function Header(){
     const { username, userId} = useContext(UserContext);
     return(
         <header className={styles.header}>
-            <h1><Link to="/">CameraWorld</Link></h1>
+            <h1><Link to="/">Camera World</Link></h1>
             <nav className={styles.nav}>
             <Link to="/">Home</Link>
             <Link to="/cameras">Cameras</Link>

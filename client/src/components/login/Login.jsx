@@ -44,7 +44,6 @@ export default function Login(){
 
             navigate('/');
         
-        return data
         }catch(err){
             setError(err.message);
             setDisabled(true);

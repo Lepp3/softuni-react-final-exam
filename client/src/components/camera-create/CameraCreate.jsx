@@ -25,6 +25,7 @@ export default function CameraCreate(){
     };
 
     const createHandler = async (e) =>{
+       
         const {make,model,price,year,resolution,imageUrl,description} = formData;
 
         let isValid = make && model && price && year && resolution && imageUrl && description;
@@ -46,7 +47,11 @@ export default function CameraCreate(){
             navigate('/cameras');
         }catch(err){
             setError(err.message);
-            setTimeout(() => setError(null), 3000);
+            setDisabled(true);
+            setTimeout(() => {
+                setError(null);
+                setDisabled(false);
+            }, 3000);
         }
 
         

@@ -1,0 +1,55 @@
+.loginForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    width: 600px;
+    padding: 1.3rem;
+    gap: 20px;
+    margin: auto;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 5px;
+    border: 1px solid #eaded2;
+}
+
+.groups{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    width: 100%;
+}
+
+.headers{
+    color:inherit;
+}
+
+.formGroup{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+    width: 100%;
+    
+}
+
+.formGroup input{
+    width: 90%;
+    height: 35px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    padding: 0.5rem;
+    color: black;
+    background-color:  #efece8;
+    border: 1px solid #a7a5a4;
+}
+
+.formGroup input:focus{
+    outline: none;
+    box-shadow: inset 0 0 3px black;
+}
+
+.errorMessage{
+    color: rgb(187, 14, 14);
+}

@@ -11,13 +11,13 @@ export default function EditProfile(){
         const { user,loading } = useGetUser(fetchedUser);
         const [error,setError] = useState(null)
         const {userId} = useContext(UserContext);
-        const [formData,setFormData] = useState({profileImageUrl: user.imageUrl,bio:user.bio} || {});
+        const [formData,setFormData] = useState({profileImageUrl: user?.imageUrl,bio:user?.bio} || {});
         const [isDisabled,setDisabled] = useState(false);
         
 
         useEffect(()=>{
             if(user){
-                setFormData({profileImageUrl: user.profileImageUrl,bio:user.bio}) 
+                setFormData({profileImageUrl: user.profileImageUrl || '',bio:user.bio || ''}) 
             }
         },[user]);
         if(loading){

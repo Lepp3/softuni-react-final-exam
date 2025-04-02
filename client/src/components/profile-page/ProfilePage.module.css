@@ -1,0 +1,44 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.userInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    
+}
+
+.userInfo p{
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+.userInfo article{
+    font-style: italic;
+    background-color: rgb(180, 176, 176);
+    color: black;
+    padding: 10px;
+    border: 2px solid rgb(168, 134, 134);
+    border-radius: 7px;
+    overflow-wrap: break-word;
+}
+
+.likedPosts{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.postHolder{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem 1rem;
+}
+

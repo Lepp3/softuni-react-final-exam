@@ -20,7 +20,7 @@ export default function CatalogItem(camera){
             </div>
             <div className={styles.headings}>
                     <h2>{camera.make} {camera.model}</h2>
-                    <div><p>Posted by</p> <p><Link to={`/user/${user._id}`}>{user.username}</Link></p></div>
+                    {/* <div><p>Posted by</p> <p><Link to={`/user/${user._id}`}>{user.username}</Link></p></div> */}
             </div>
             <div className={styles.shortInfo}>
             <p>Price: {camera.price} $</p>

@@ -89,7 +89,7 @@ export default function Login() {
           value="Login"
           disabled={isDisabled}
         />
-        <div className="afterField">
+        <div className={styles.afterField}>
           <span>
             If you don't have a profile click <Link to="/register">here</Link>
           </span>

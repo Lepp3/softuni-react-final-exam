@@ -33,9 +33,13 @@ export default function ProfilePage() {
               onError={() => setImageSrc(defaultAvatar)}
             />
             <h3>Bio:</h3>
+            {!user.bio ? <p>This user has not set their bio yet.</p> :
+            
             <article>
               <p>{user.bio}</p>
             </article>
+            }
+            
 
             {userId === user._id ? (
               <div id="profileButtons">
@@ -58,7 +62,7 @@ export default function ProfilePage() {
                   </div>
                 ))
               ) : (
-                <p>No liked posts yet</p>
+                <p>No recommended cameras yet</p>
               )}
             </div>
           </div>
@@ -72,7 +76,7 @@ export default function ProfilePage() {
                   </div>
                 ))
               ) : (
-                <p>No liked posts yet</p>
+                <p>User hasn't posted a camera yet!</p>
               )}
             </div>
           </div>

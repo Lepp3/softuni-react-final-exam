@@ -77,7 +77,7 @@ export default function EditProfile() {
             />
           </div>
           <div className={styles.formGroup}>
-            <label htmlFor="bio">Bio:</label>
+            <label htmlFor="bio">Bio: (atleast 10 characters long)</label>
             <input
               type="text"
               id="bio"

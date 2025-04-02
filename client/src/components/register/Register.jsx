@@ -169,7 +169,7 @@ export default function Register() {
           value="Register"
           disabled={!isFormValid()}
         />
-        <div className="afterField">
+        <div className={styles.afterField}>
           <span>
             Already have an account? Click <Link to="/login">here</Link>
           </span>

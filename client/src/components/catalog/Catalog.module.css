@@ -14,9 +14,10 @@
 .catalogHeader{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
     margin-bottom: 3rem;
+    text-align: center;
 }
 
 .catalog h1{

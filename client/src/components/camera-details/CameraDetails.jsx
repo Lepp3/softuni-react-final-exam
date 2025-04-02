@@ -203,7 +203,7 @@ export default function CameraDetails(){
             camera.likedBy.length === 1 ?
                 <p>{camera.likedBy.length} person recommends this camera</p>
                 : <p>{camera.likedBy.length} people recommend this camera</p>
-        : <p>Be the first to recommend this camera</p>}
+        : <p>No recommendations yet!</p>}
             {( !isOwner && !hasLiked && userId) && <div className={styles.ownerButton} onClick={likeCameraHandler}>Recommend this camera</div>}
             {( !isOwner && hasLiked && userId) && <div className={styles.ownerButton} onClick={cameraUnlikeHandler}>Remove recommendation</div>}
             {actionError ? <div id='actionError'>{actionError}</div> : <></>}

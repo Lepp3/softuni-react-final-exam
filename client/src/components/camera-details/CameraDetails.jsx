@@ -4,7 +4,7 @@ import { UserContext } from '../../contexts/UserContext';
 import { useCamera, useDeleteCamera, useLikeCamera, usePostComment, useRemoveLiked } from '../../api/cameraApi';
 import SingleComment from './SingleComment';
 import styles from './CameraDetails.module.css';
-import { useGetUser } from '../../api/authApi';
+
 
 
 export default function CameraDetails(){

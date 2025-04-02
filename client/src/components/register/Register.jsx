@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router'
 import { useContext, useState } from 'react';
 import { useRegister } from '../../api/authApi';
 import { UserContext } from '../../contexts/UserContext';
+import styles from './Register.module.css';
 
 export default function Register(){
 
@@ -50,11 +51,19 @@ export default function Register(){
         )
     }
 
-    const registerHandler = async (formData) =>{
-        const {email,username,password,rePassword} = Object.fromEntries(formData);
+    const registerHandler = async (e) =>{
+        const {email,username,password,rePassword} = form;
         
-       
-
+       const isValid = email && username && password && rePassword;
+       if (!isValid) {
+        setError("All fields are required!");
+        
+        setTimeout(() => {
+          setError(null);
+          
+        }, 3000);
+        return;
+      }
         
         try{
             const result = await register({email,username,password});
@@ -72,31 +81,47 @@ export default function Register(){
 
     return(
         <section>
-            <form id="login" action={registerHandler}>
-            <h1>Register</h1>
-            <label htmlFor="email">Email:</label>
+            <form className={styles.loginForm} action={registerHandler}>
+            <div className={styles.headers}>
+                                  <h1>Register</h1>
+                                </div>
+            <div className={styles.groups}>
+                <div className={styles.formGroup}>
+                <label htmlFor="email">Email:</label>
             <input type="email" id="email" name="email" value={form.email} className={touched.username && !validateEmail(form.email) ? 'invalid' : ''} onChange={handleChange} onBlur={handleTouch}/>
-            {(touched.email && !validateEmail(form.email)) && <p>Invalid email format</p>}
-
-            <label htmlFor="username">Username:</label>
-            <input type="username" id="username" name="username" className={touched.username && !validateUsername(form.username) ? 'invalid' : ''} value={form.username} onChange={handleChange} onBlur={handleTouch}/>
-            {touched.username && !validateUsername(form.username) && <p>Username should be between 4 and 15 characters!</p>}
-
-            <label htmlFor="password">Password:</label>
-            <input type="password" id="password" name="password"  value={form.password} onChange={handleChange} onBlur={handleTouch} className={touched.password && !validatePassword(form.password) ? 'invalid' : ''}/>
-            {touched.password && !validatePassword(form.password) && <p>Password should be atleast 4 characters!</p>}
-
-            <label htmlFor="rePassword">Repeat password:</label>
-            <input type="password" id="rePassword" name="rePassword" value={form.rePassword} onChange={handleChange} onBlur={handleTouch} className={touched.rePassword && !validatePasswords(form.password,form.rePassword) ? 'invalid' : ''}/>
-            {touched.rePassword && !validatePasswords(form.password,form.rePassword) && <p>Passwords don't match!</p>}
+            {(touched.email && !validateEmail(form.email)) && <p className={styles.errorMessage}>Invalid email format</p>}
+                </div>
             
 
+            <div className={styles.formGroup}>
+            <label htmlFor="username">Username:</label>
+            <input type="username" id="username" name="username" className={touched.username && !validateUsername(form.username) ? 'invalid' : ''} value={form.username} onChange={handleChange} onBlur={handleTouch}/>
+            {touched.username && !validateUsername(form.username) && <p className={styles.errorMessage}>Username should be between 4 and 15 characters!</p>}
+            </div>
+           
+
+            <div className={styles.formGroup}>
+            <label htmlFor="password">Password:</label>
+            <input type="password" id="password" name="password"  value={form.password} onChange={handleChange} onBlur={handleTouch} className={touched.password && !validatePassword(form.password) ? 'invalid' : ''}/>
+            {touched.password && !validatePassword(form.password) && <p className={styles.errorMessage}>Password should be atleast 4 characters!</p>}
+            </div>
+           
+
+            <div className={styles.formGroup}>
+            <label htmlFor="rePassword">Repeat password:</label>
+            <input type="password" id="rePassword" name="rePassword" value={form.rePassword} onChange={handleChange} onBlur={handleTouch} className={touched.rePassword && !validatePasswords(form.password,form.rePassword) ? 'invalid' : ''}/>
+            {touched.rePassword && !validatePasswords(form.password,form.rePassword) && <p className={styles.errorMessage}>Passwords don't match!</p>}
+            </div>
+           
+            
+            </div>
             <input type="submit" className="btn submit" value="Register" disabled={!isFormValid()}/>
             <div className="afterField">
                 <span>Already have an account? Click <Link to="/login">here</Link></span>
             </div>
+            {error ? <p className={styles.errorMessage}>{error}</p> : <></>}
             </form>
-            {error ? <div id="errorSection">{error}</div> : <></>}  
+              
         </section>
     )
 }

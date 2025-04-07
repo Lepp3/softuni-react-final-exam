@@ -39,9 +39,11 @@ const userSchema = new Schema({
         ref: 'Camera',
         price : {
             type: Number,
+            required: true,
         },
         quantity: {
-            type: Number
+            type: Number,
+            default: 1
         }
     }
 

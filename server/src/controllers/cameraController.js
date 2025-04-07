@@ -158,6 +158,23 @@ cameraController.delete('/:cameraId/comments/:commentId', auth, async(req,res)=>
     }catch(err){
         res.status(500).json(err.message);
     }
+});
+
+
+cameraController.post('/:cameraId/add-cart', auth, async(req,res)=>{
+    const cameraId = req.params.cameraId;
+    const userId = req.user?.id;
+    const quantity = req.body;
+
+    try{
+        const addedCamera = await cameraService.addCameraToCart(cameraId,userId,quantity);
+        if(!addedCamera){
+            throw new Error('Failed to add camera to cart!');
+        }
+        res.status(200).json(addedCamera);
+    }catch(err){
+        res.status(500).json(err.message);
+    }
 })
 
 

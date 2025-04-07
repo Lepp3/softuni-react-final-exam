@@ -101,6 +101,27 @@ export default {
         camera.comments = camera.comments.filter(comment=>comment._id !== commentToDelete._id);
         await camera.save()
         return commentToDelete
+    },
+    async addCameraToCart(cameraId,userId,quantity){
+        const camera = await Camera.findById(cameraId);
+        const user = await User.findById(userId);
+        if(!user){
+            throw new Error('No user!');
+        };
+        if(!camera){
+            throw new Error('No camera found!');
+        };
+        const price = camera.price * quantity;
+
+        const existingItem = user.cart.find(item=>item._id === camera._id.toString());
+        if(!existingItem){
+            user.cart.push({cameraId, price,quantity});
+        }else{
+            existingItem.quantity += quantity;
+            existingItem.price += price;
+        };
+
+        return user.save();
     }
 
 }

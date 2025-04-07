@@ -30,7 +30,7 @@ const userSchema = new Schema({
         type: Types.ObjectId,
         ref: 'Camera'
     }],
-    likedPosts: [{
+    recommendedPosts: [{
         type: Types.ObjectId,
         ref: 'Camera'
     }],

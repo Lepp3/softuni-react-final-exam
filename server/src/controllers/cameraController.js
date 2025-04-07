@@ -1,180 +1,187 @@
 import { Router } from "express";
 import cameraService from "../services/cameraService.js";
-import { auth, isAuth } from "../../middlewares/authMiddleware.js";
+import { auth } from "../../middlewares/authMiddleware.js";
 
 
 const cameraController = Router();
 
+function buildFilter(query) {
+  const filterResult = Object.keys(query).reduce((filter, filterParam) => {
+    //replace double quotes
+    const filterParamValue = query[filterParam].replaceAll('"', "");
+    const searchParam = new URLSearchParams(query[filterParamValue]);
+    const result = { ...filter, ...Object.fromEntries(searchParam.entries()) };
 
-function buildFilter(query){
-    const filterResult = Object.keys(query).reduce((filter, filterParam)=>{
-        //replace double quotes
-        const filterParamValue = query[filterParam].replaceAll('"', '')
-        const searchParam = new URLSearchParams(query[filterParamValue]);
-        const result = {...filter,...Object.fromEntries(searchParam.entries())}
+    return result;
+  }, {});
 
-        return result
-    },{});
-
-    return filterResult
+  return filterResult;
 }
 
 //get all
-cameraController.get('/', async (req,res)=>{
-    const filter = buildFilter(req.query);
+cameraController.get("/", async (req, res) => {
+  const filter = buildFilter(req.query);
 
-    const cameras = await cameraService.getAll(filter)
-    
-    res.status(200).json(cameras);
+  const cameras = await cameraService.getAll(filter);
+
+  res.status(200).json(cameras);
 });
 
 //get one
-cameraController.get('/:cameraId', async (req,res)=>{
-    const cameraId = req.params.cameraId;
+cameraController.get("/:cameraId", async (req, res) => {
+  const cameraId = req.params.cameraId;
 
-    try{
-        const camera = await cameraService.getOneCamera(cameraId);
-        if(!camera){
-            throw new Error('No record found!');
-        }
-        res.json(camera);
-    }catch(err){
-        res.status(404).json('Nothing found!');
+  try {
+    const camera = await cameraService.getOneCamera(cameraId);
+    if (!camera) {
+      throw new Error("No record found!");
     }
-    
-})
+    res.json(camera);
+  } catch (err) {
+    res.status(404).json("Nothing found!");
+  }
+});
 
 //create
-cameraController.post('/create', auth ,async (req,res)=>{
+cameraController.post("/create", auth, async (req, res) => {
+  const cameraData = req.body;
+  const userId = req.user.id;
 
-    const cameraData = req.body;
-    const userId = req.user.id;
-
-    try{
-        const createdCamera = await cameraService.createCamera(cameraData,userId);
-        if(!createdCamera){
-            throw new Error('Failed to create camera!');
-        }
-        res.status(201).json(createdCamera)
-    }catch(err){
-        res.status(500).json({error: err.message});
+  try {
+    const createdCamera = await cameraService.createCamera(cameraData, userId);
+    if (!createdCamera) {
+      throw new Error("Failed to create camera!");
     }
-    
-
-})
-
-cameraController.get('/create', async (req,res)=>{
-    res.status(204).end();
-})
-
-//edit one
-cameraController.put('/:cameraId',auth, async(req,res)=>{
-    const cameraId = req.params.cameraId;
-    const cameraInfo = req.body;
-    
-
-    try{
-        const updatedCamera = await cameraService.updateCamera(cameraId,cameraInfo);
-        if(!updatedCamera){
-            throw new Errror('Update failed')
-        }
-        res.status(200).json(updatedCamera)
-    }catch(err){
-        res.status(500).json('Update failed')
-    }
+    res.status(201).json(createdCamera);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-//delete one
-cameraController.delete('/:cameraId', auth,async(req,res)=>{
-    const cameraId = req.params.cameraId;
-
-    try{
-        const successfullDeletion = await cameraService.deleteCamera(cameraId);
-        if(!successfullDeletion){
-            throw new Error('Deletion incomplete!');
-        };
-        res.status(200).json(successfullDeletion._id);
-    }catch(err){
-        res.status(500).json(err.message);
-    }
+cameraController.get("/create", async (req, res) => {
+  res.status(204).end();
 });
 
+//edit
+cameraController.put("/:cameraId", auth, async (req, res) => {
+  const cameraId = req.params.cameraId;
+  const cameraInfo = req.body;
 
-cameraController.post('/:cameraId/like', auth, async (req,res)=>{
-    const cameraId = req.params.cameraId;
-    const userId = req.user.id;
-   
-
-    try{
-        const likeInfo = await cameraService.likeCamera(cameraId,userId);
-        if(!likeInfo){
-            throw new Error('Failed to like.')
-        }
-        res.status(200).json(likeInfo);
-    }catch(err){
-        res.status(500).json(err.message);
+  try {
+    const updatedCamera = await cameraService.updateCamera(
+      cameraId,
+      cameraInfo
+    );
+    if (!updatedCamera) {
+      throw new Errror("Update failed");
     }
+    res.status(200).json(updatedCamera);
+  } catch (err) {
+    res.status(500).json("Update failed");
+  }
 });
 
-cameraController.delete('/:cameraId/like', auth, async(req,res)=>{
-    const cameraId = req.params.cameraId;
-    const userId = req.user.id;
+//delete
+cameraController.delete("/:cameraId", auth, async (req, res) => {
+  const cameraId = req.params.cameraId;
 
-    try{
-        const removedLike = await cameraService.unlikeCamera(cameraId,userId);
-        if(!removedLike){
-            throw new Error('Failed to remove like');
-        }
-        res.status(200).json(removedLike);
-    }catch(err){
-        res.status(500).json(err.message);
+  try {
+    const successfullDeletion = await cameraService.deleteCamera(cameraId);
+    if (!successfullDeletion) {
+      throw new Error("Deletion incomplete!");
     }
-})
-
-
-cameraController.post('/:cameraId/comments', auth ,async (req,res)=>{
-    const cameraId = req.params.cameraId;
-    const userId = req.user.id;
-    const commentData = req.body;
-   
-
-    try{
-        const comment = await cameraService.postComment(userId,cameraId,commentData);
-        res.status(200).json(comment)
-    }catch(err){
-        res.status(500).json(err.message);
-    }
+    res.status(200).json(successfullDeletion._id);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
 });
 
-cameraController.delete('/:cameraId/comments/:commentId', auth, async(req,res)=>{
+cameraController.post("/:cameraId/recommend", auth, async (req, res) => {
+  const cameraId = req.params.cameraId;
+  const userId = req.user.id;
+
+  try {
+    const recommendationInfo = await cameraService.likeCamera(cameraId, userId);
+    if (!recommendationInfo) {
+      throw new Error("Failed to recommend.");
+    }
+    res.status(200).json(recommendationInfo);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
+
+cameraController.delete("/:cameraId/recommend", auth, async (req, res) => {
+  const cameraId = req.params.cameraId;
+  const userId = req.user.id;
+
+  try {
+    const removedRecommendation = await cameraService.unlikeCamera(cameraId, userId);
+    if (!removedRecommendation) {
+      throw new Error("Failed to remove recommendation!");
+    }
+    res.status(200).json(removedRecommendation);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
+
+cameraController.post("/:cameraId/comments", auth, async (req, res) => {
+  const cameraId = req.params.cameraId;
+  const userId = req.user.id;
+  const commentData = req.body;
+
+  try {
+    const comment = await cameraService.postComment(
+      userId,
+      cameraId,
+      commentData
+    );
+    res.status(200).json(comment);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
+
+cameraController.delete(
+  "/:cameraId/comments/:commentId",
+  auth,
+  async (req, res) => {
     const cameraId = req.params.cameraId;
     const commentId = req.params.commentId;
     const userId = req.user.id;
 
-
-    try{
-        const deletedComment = await cameraService.deleteComment(userId,cameraId,commentId);
-        res.status(200).json(deletedComment);
-    }catch(err){
-        res.status(500).json(err.message);
+    try {
+      const deletedComment = await cameraService.deleteComment(
+        userId,
+        cameraId,
+        commentId
+      );
+      res.status(200).json(deletedComment);
+    } catch (err) {
+      res.status(500).json(err.message);
     }
-});
+  }
+);
 
+cameraController.post("/:cameraId/add-cart", auth, async (req, res) => {
+  const cameraId = req.params.cameraId;
+  const userId = req.user?.id;
+  const quantity = req.body;
 
-cameraController.post('/:cameraId/add-cart', auth, async(req,res)=>{
-    const cameraId = req.params.cameraId;
-    const userId = req.user?.id;
-    const quantity = req.body;
-
-    try{
-        const addedCamera = await cameraService.addCameraToCart(cameraId,userId,quantity);
-        if(!addedCamera){
-            throw new Error('Failed to add camera to cart!');
-        }
-        res.status(200).json(addedCamera);
-    }catch(err){
-        res.status(500).json(err.message);
+  try {
+    const addedCamera = await cameraService.addCameraToCart(
+      cameraId,
+      userId,
+      quantity
+    );
+    if (!addedCamera) {
+      throw new Error("Failed to add camera to cart!");
     }
+    res.status(200).json(addedCamera);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
 });
 
 

@@ -35,7 +35,7 @@ const cameraSchema = new Schema({
         type: Types.ObjectId,
         ref: 'User'
     },
-    likedBy: [{
+    recommendedBy: [{
         type: Types.ObjectId,
         ref: 'User'
     }],

@@ -34,40 +34,36 @@ export default {
     getCreatedCameras(userId){
         return Camera.find({ownerId: userId});
     },
-    async likeCamera(cameraId,userId){
+    async recommendCamera(cameraId,userId){
         const camera = await Camera.findById(cameraId);
         const user = await User.findById(userId);
         if(camera.ownerId === user._id.toString()){
-            throw new Error('Owners cannot like their own content!');
+            throw new Error('Owners cannot recommend their own content!');
         }
-        if(camera.likedBy.includes(user._id.toString())){
-            throw new Error('Only one like per user allowed!');
+        if(camera.recommendedBy.includes(user._id.toString())){
+            throw new Error('Only one recommendation per user allowed!');
         }
-        camera.likedBy.push(userId);
-        user.likedPosts.push(camera._id);
+        camera.recommendedBy.push(userId);
+        user.recommendedPosts.push(camera._id);
         await user.save();
         return camera.save();
     },
-    // async getComment(commentId){
-    //     const camera = await Camera.findById(cameraId).populate('comments');
-    //     return camera.comments;
-
-    // },
-    async unlikeCamera(cameraId,userId){
+    async removeRecommendationOnCamera(cameraId,userId){
         const camera = await Camera.findById(cameraId);
         const user = await User.findById(userId);
-        if(!camera.likedBy.includes(user._id.toString())){
-            throw new Error('No like to remove');
+        if(!camera.recommendedBy.includes(user._id.toString())){
+            throw new Error('No recommendation to remove');
         }
 
        
-        camera.likedBy = camera.likedBy.filter(likedUser => likedUser.toString() !== userId.toString());
-        user.likedPosts = user.likedPosts.filter(likedCamera => likedCamera.toString() !== cameraId.toString());
+        camera.recommendedBy = camera.recommendedBy.filter(recommendedUser => recommendedUser.toString() !== userId.toString());
+        user.recommendedPosts = user.recommendedPosts.filter(recommendedCamera => recommendedCamera.toString() !== cameraId.toString());
         user.save();
         return camera.save()
 
     },
-    async postComment(userId,cameraId,commentData){
+    // TODO: FIX WORDING AND IMPLEMENT REVIEW MODEL HERE
+    async postReview(userId,cameraId,reviewData){
         const camera = await Camera.findById(cameraId);
         
         const newComment = {
@@ -81,6 +77,7 @@ export default {
         await camera.save();
         return newComment
     },
+    // AND HERE
     async deleteComment(userId,cameraId,commentId){
         const camera = await Camera.findById(cameraId);
         if(!camera){

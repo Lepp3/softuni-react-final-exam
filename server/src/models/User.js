@@ -33,7 +33,19 @@ const userSchema = new Schema({
     likedPosts: [{
         type: Types.ObjectId,
         ref: 'Camera'
-    }]
+    }],
+    cart: [{
+        types: Types.ObjectId,
+        ref: 'Camera',
+        price : {
+            type: Number,
+        },
+        quantity: {
+            type: Number
+        }
+    }
+
+    ]
 });
 
 userSchema.pre('save', async function(next){

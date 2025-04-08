@@ -73,26 +73,27 @@ export default {
         return review
     },
     // AND HERE
-    async deleteComment(userId,cameraId,reviewId){
+    async deleteReview(userId,cameraId,reviewId){
         const camera = await Camera.findById(cameraId);
         if(!camera){
             throw new Error('No camera found!');
-        }
+        };
 
         const reviewToDelete = await Review.findById(reviewId);
         if(!reviewToDelete){
             throw new Error('No review found!');
-        }
+        };
 
         if(camera.ownerId.toString() !== userId && reviewToDelete.ownerId.toString() !== userId){
             throw new Error('Unauthorized! Only post and comment owners can delete comments!');
-        }
+        };
 
        
       
-        camera.comments = camera.comments.filter(comment=>comment._id !== commentToDelete._id);
+        await Review.findByIdAndDelete(reviewId);
+        camera.reviews = camera.reviews.filter(review=>review._id.toString() !== reviewId)
         await camera.save()
-        return commentToDelete
+        return reviewToDelete
     },
     async addCameraToCart(cameraId,userId,quantity){
         const camera = await Camera.findById(cameraId);

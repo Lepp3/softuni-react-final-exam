@@ -27,7 +27,7 @@ const reviewSchema = new Schema({
 {timestamps: true});
 
 
-const Comment = model('Comment',commentSchema);
+const Review = model('Review',reviewSchema);
 
 
-export default Comment;
+export default Review;

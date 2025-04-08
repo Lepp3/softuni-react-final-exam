@@ -1,4 +1,5 @@
 import Camera from "../models/Camera.js";
+import Review from "../models/Review.js";
 import User from "../models/User.js";
 import mongoose from "mongoose";
 
@@ -62,34 +63,28 @@ export default {
         return camera.save()
 
     },
-    // TODO: FIX WORDING AND IMPLEMENT REVIEW MODEL HERE
     async postReview(userId,cameraId,reviewData){
         const camera = await Camera.findById(cameraId);
+        const user = await User.findById(userId);
+        const review = await Review.create({reviewData,ownerId:user._id,cameraId:camera._id});
         
-        const newComment = {
-            _id: new mongoose.Types.ObjectId(), // Generate a unique ID manually
-            ownerId: new mongoose.Types.ObjectId(userId),
-            content: commentData.content,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        };
-        camera.comments.push(newComment);
+        camera.reviews.push(review._id);
         await camera.save();
-        return newComment
+        return review
     },
     // AND HERE
-    async deleteComment(userId,cameraId,commentId){
+    async deleteComment(userId,cameraId,reviewId){
         const camera = await Camera.findById(cameraId);
         if(!camera){
             throw new Error('No camera found!');
         }
 
-        const commentToDelete = camera.comments.find(comment=> comment._id.toString() === commentId);
-        if(!commentToDelete){
-            throw new Error('No comment found!');
+        const reviewToDelete = await Review.findById(reviewId);
+        if(!reviewToDelete){
+            throw new Error('No review found!');
         }
 
-        if(camera.ownerId.toString() !== userId && commentToDelete.ownerId.toString() !== userId){
+        if(camera.ownerId.toString() !== userId && reviewToDelete.ownerId.toString() !== userId){
             throw new Error('Unauthorized! Only post and comment owners can delete comments!');
         }
 

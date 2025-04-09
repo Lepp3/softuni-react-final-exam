@@ -22,13 +22,14 @@ export default {
 
         const createdUser = await User.create(userData);
 
-        const token = generateToken(createdUser);
+        const {accessToken, refreshToken} = generateToken(createdUser);
 
         const result = {
             email: createdUser.email,
             username: createdUser.username,
-            authToken: token,
-            userId: createdUser._id
+            authToken: accessToken,
+            userId: createdUser._id,
+            refreshToken,
         }
 
         return result
@@ -49,16 +50,17 @@ export default {
             throw new Error('Incorrect email or password!');
         }
 
-        const token = generateToken(user);
+        const {accessToken, refreshToken} = generateToken(createdUser);
 
         const result = {
-            email: user.email,
-            username: user.username,
-            authToken: token,
-            userId: user._id
+            email: createdUser.email,
+            username: createdUser.username,
+            authToken: accessToken,
+            userId: createdUser._id,
+            refreshToken,
         }
 
-        return result;
+        return result
      },
 
      invalidateToken(token){

@@ -1,6 +1,7 @@
 import {Router} from 'express';
 import userService from '../services/userService.js';
 import { auth } from '../../middlewares/authMiddleware.js';
+import RefreshToken from '../models/RefreshToken.js';
 
 
 
@@ -44,10 +45,13 @@ userController.post('/login', async(req,res,next)=>{
 
 userController.get('/logout', auth, async (req,res)=>{
     const token = req.headers['authorization'];
+    const refreshToken = req.body.refreshToken;
 
 
     try{
         await userService.invalidateToken(token);
+
+        await RefreshToken.deleteOne({token: refreshToken});
 
         res.status(200).json('Logout successful!');
     }catch(err){

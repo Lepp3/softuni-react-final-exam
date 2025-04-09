@@ -1,6 +1,8 @@
-import { generateToken } from "../../utils/tokenUtils.js";
+import { JWT_SECRET, REFERSH_SECRET } from "../config.js";
 import InvalidToken from "../models/invalidToken.js";
+import RefreshToken from "../models/RefreshToken.js";
 import User from "../models/User.js";
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 export default {
@@ -18,11 +20,9 @@ export default {
         };
 
        
-
-
         const createdUser = await User.create(userData);
 
-        const {accessToken, refreshToken} = generateToken(createdUser);
+        const {accessToken, refreshToken} = this.generateToken(createdUser);
 
         const result = {
             email: createdUser.email,
@@ -34,7 +34,6 @@ export default {
 
         return result
     },
-
      async login(email,password){
         const user = await User.findOne({email});
 
@@ -50,7 +49,7 @@ export default {
             throw new Error('Incorrect email or password!');
         }
 
-        const {accessToken, refreshToken} = generateToken(createdUser);
+        const {accessToken, refreshToken} = this.generateToken(createdUser);
 
         const result = {
             email: createdUser.email,
@@ -65,6 +64,38 @@ export default {
 
      invalidateToken(token){
         return InvalidToken.create({token})
+     },
+     async refreshToken(refreshToken){
+        const validToken = await RefreshToken.findOne({token: refreshToken});
+        if(!validToken){
+            throw new Error('Invalid token provided');
+        }
+
+        const decodedToken = jwt.verify(validToken,REFERSH_SECRET);
+        const payload = {
+            id: decodedToken.id,
+            username: decodedToken.username,
+            token: decodedToken.email
+            };
+        
+            const newAccessToken = jwt.sign(payload,JWT_SECRET,{expiresIn: '2h'});
+
+            return newAccessToken;
+     },
+     async generateToken(user){
+        const payload = {
+            id: user.id,
+            username: user.username,
+            email: user.email
+        };
+    
+        const accessToken = jwt.sign(payload,JWT_SECRET,{expiresIn: '2h'});
+    
+        const refreshToken = jwt.sign(payload,REFERSH_SECRET,{expiresIn: '7d'});
+    
+        await RefreshToken.create({token: refreshToken, userId: user.id})
+    
+        return {accessToken, refreshToken};
      },
       getOneUser(userId){
         

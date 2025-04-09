@@ -91,6 +91,20 @@ userController.put('/:userId', auth, async (req,res)=>{
     }catch(err){
         res.status(404).json({error: 'Failed to update user',message: err.message});
     }
+});
+
+userController.post('/refresh-token', async (req,res)=>{
+    const refreshToken = req.body.refreshToken;
+
+    try{
+        const newToken = userService.refreshToken(refreshToken);
+        if(!newToken){
+            throw new Error('Failed to refresh token.')
+        }
+        res.status(200).json(newToken)
+    }catch(err){
+        res.status(500).json(err.message);
+    }
 })
 
 

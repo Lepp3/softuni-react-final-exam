@@ -203,7 +203,23 @@ cameraController.post('/:cameraId/remove-cart', auth, async(req,res)=>{
     res.status(500).json(err.message);
   }
 
-})
+});
+
+
+cameraController.post('/checkout', auth, async(req,res)=>{
+  const userId = req.user?.id;
+
+
+  try{
+      const updatedUser = await cameraService.checkout(userId);
+      if(!updatedUser){
+        throw new Error('Failed checkout!');
+      };
+      res.status(200).json(updatedUser);
+  }catch(err){
+    res.status(500).json(err.message);
+  }
+});
 
 
 

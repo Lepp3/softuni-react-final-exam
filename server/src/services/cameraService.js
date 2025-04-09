@@ -130,6 +130,15 @@ export default {
         itemInCart.quantity -= quantity;
         itemInCart.price -= priceReduction;
         return user.save();
+    },
+    async checkout(userId){
+        const user = await User.findById(userId);
+        if(!user){
+            throw new Error('No user found!');
+        }
+        user.cart = [];
+
+        return user.save();
     }
 
 }

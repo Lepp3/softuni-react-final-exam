@@ -1,1 +1,2 @@
 export const JWT_SECRET = "88fbbkeiuibddbuziiwbbf8773ubngbgba987d7aoofbbe77a00dufvfva77afboxhxxcbbxt97t3tgbfd37g87c9a7";
+export const REFERSH_SECRET = "88fbbmmbnuibddbuziiwbbf8773u9hng99nh7aoofbbe77a00dufvfva77afbkksndovt97t3t99hnnppnmbba7";

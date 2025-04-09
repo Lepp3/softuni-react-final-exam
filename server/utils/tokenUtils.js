@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '../src/config.js';
+import { JWT_SECRET,REFERSH_SECRET } from '../src/config.js';
 
 
 export const generateToken = (user) =>{
@@ -10,6 +10,8 @@ export const generateToken = (user) =>{
     };
 
     const token = jwt.sign(payload,JWT_SECRET,{expiresIn: '2h'});
+
+    const refreshToken = jwt.sign(payload,REFERSH_SECRET,{expiresIn: '7d'});
 
     return token;
 }

@@ -126,38 +126,38 @@ cameraController.delete("/:cameraId/recommend", auth, async (req, res) => {
   }
 });
 
-cameraController.post("/:cameraId/comments", auth, async (req, res) => {
+cameraController.post("/:cameraId/reviews", auth, async (req, res) => {
   const cameraId = req.params.cameraId;
   const userId = req.user.id;
-  const commentData = req.body;
+  const reviewData = req.body;
 
   try {
-    const comment = await cameraService.postComment(
+    const review = await cameraService.postReview(
       userId,
       cameraId,
-      commentData
+      reviewData
     );
-    res.status(200).json(comment);
+    res.status(200).json(review);
   } catch (err) {
     res.status(500).json(err.message);
   }
 });
 
 cameraController.delete(
-  "/:cameraId/comments/:commentId",
+  "/:cameraId/reviews/:reviewId",
   auth,
   async (req, res) => {
     const cameraId = req.params.cameraId;
-    const commentId = req.params.commentId;
+    const reviewId = req.params.reviewId;
     const userId = req.user.id;
 
     try {
-      const deletedComment = await cameraService.deleteComment(
+      const deletedReview = await cameraService.deleteReview(
         userId,
         cameraId,
-        commentId
+        reviewId
       );
-      res.status(200).json(deletedComment);
+      res.status(200).json(deletedReview);
     } catch (err) {
       res.status(500).json(err.message);
     }
@@ -170,7 +170,7 @@ cameraController.post("/:cameraId/add-cart", auth, async (req, res) => {
   const quantity = req.body;
 
   try {
-    const addedCamera = await cameraService.addCameraToCart(
+    const updatedUser = await cameraService.addCameraToCart(
       cameraId,
       userId,
       quantity
@@ -178,11 +178,32 @@ cameraController.post("/:cameraId/add-cart", auth, async (req, res) => {
     if (!addedCamera) {
       throw new Error("Failed to add camera to cart!");
     }
-    res.status(200).json(addedCamera);
+    res.status(200).json(updatedUser);
   } catch (err) {
     res.status(500).json(err.message);
   }
 });
+
+
+cameraController.post('/:cameraId/remove-cart', auth, async(req,res)=>{
+  const cameraId = req.params.cameraId;
+  const userId = req.user?.id;
+  const quantity = req.body;
+  try {
+    const updatedUser = await cameraService.removeCameraFromCart(
+      cameraId,
+      userId,
+      quantity
+    );
+    if (!updatedUser) {
+      throw new Error("Failed to remove camera from cart!");
+    }
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+
+})
 
 
 

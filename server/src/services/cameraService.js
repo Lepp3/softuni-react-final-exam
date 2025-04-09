@@ -72,7 +72,6 @@ export default {
         await camera.save();
         return review
     },
-    // AND HERE
     async deleteReview(userId,cameraId,reviewId){
         const camera = await Camera.findById(cameraId);
         if(!camera){
@@ -98,12 +97,9 @@ export default {
     async addCameraToCart(cameraId,userId,quantity){
         const camera = await Camera.findById(cameraId);
         const user = await User.findById(userId);
-        if(!user){
-            throw new Error('No user!');
-        };
-        if(!camera){
-            throw new Error('No camera found!');
-        };
+        if(!user || !camera){
+            throw new Error('Operation failed!');
+        }
         const price = camera.price * quantity;
 
         const existingItem = user.cart.find(item=>item._id === camera._id.toString());
@@ -114,6 +110,25 @@ export default {
             existingItem.price += price;
         };
 
+        return user.save();
+    },
+    async removeCameraFromCart(cameraId,userId,quantity){
+        const camera = await Camera.findById(cameraId);
+        const user = await User.findById(userId);
+        if(!user || !camera){
+            throw new Error('Operation failed!');
+        };
+        const itemInCart = user.cart.find(item=>item._id.toString() === cameraId);
+        if(!itemInCart){
+            throw new Error('No such item in cart!');
+        }
+
+        if(itemInCart.quantity < quantity){
+            throw new Error('Remove quantity bigger than available quantity!');
+        }
+        const priceReduction = itemInCart.price * quantity;
+        itemInCart.quantity -= quantity;
+        itemInCart.price -= priceReduction;
         return user.save();
     }
 

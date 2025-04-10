@@ -61,7 +61,6 @@ export default {
 
         return result
      },
-
      invalidateToken(token){
         return InvalidToken.create({token})
      },

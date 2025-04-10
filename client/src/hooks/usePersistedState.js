@@ -19,7 +19,6 @@ export default function usePersistedState(initialState){
         setState(data);
     }
 
-
     return [
         state,
         setPersistedState

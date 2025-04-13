@@ -95,9 +95,10 @@ userController.put('/:userId', auth, async (req,res)=>{
 
 userController.post('/refresh-token', async (req,res)=>{
     const refreshToken = req.body.refreshToken;
+    const expiredToken = req.body.expiredToken;
 
     try{
-        const newToken = userService.refreshToken(refreshToken);
+        const newToken = userService.refreshToken(refreshToken,expiredToken);
         if(!newToken){
             throw new Error('Failed to refresh token.')
         }

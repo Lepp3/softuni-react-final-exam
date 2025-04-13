@@ -4,7 +4,32 @@ import { UserContext } from "../contexts/UserContext";
 import useAuth from "../hooks/useAuth";
 
 
-const baseUrl = 'http://localhost:3030/users'
+const baseUrl = 'http://localhost:3030/users';
+
+export const useRefreshToken = () =>{
+    const abortRef = useRef();
+
+    const refreshTokenFn = async (expiredToken, refreshToken) =>{
+        const validJwt = await requester.post(
+                        `${baseUrl}/refresh-token`, 
+                         {refreshToken,expiredToken},
+                         {signal: abortRef.current.signal});
+
+        return validJwt;
+    }
+
+    useEffect(()=>{
+        const abortController = new AbortController();
+
+        abortRef.current = abortController;
+
+        return ()=>abortController.abort();
+    },[]);
+
+    return {
+        refreshTokenFn
+    }
+}
 
 export const useLogin = () =>{
 

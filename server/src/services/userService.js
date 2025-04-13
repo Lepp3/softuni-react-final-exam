@@ -64,11 +64,13 @@ export default {
      invalidateToken(token){
         return InvalidToken.create({token})
      },
-     async refreshToken(refreshToken){
+     async refreshToken(refreshToken,expiredToken){
         const validToken = await RefreshToken.findOne({token: refreshToken});
         if(!validToken){
             throw new Error('Invalid token provided');
-        }
+        };
+
+        await this.invalidateToken(expiredToken);
 
         const decodedToken = jwt.verify(validToken,REFERSH_SECRET);
         const payload = {

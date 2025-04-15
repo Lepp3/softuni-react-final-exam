@@ -34,6 +34,7 @@ userController.post('/login', async(req,res,next)=>{
 
     try{
         const loggedUser = await userService.login(userEmail,password);
+        console.log('LOG FROM CONTROLLER', loggedUser)
         const {email,username,authToken,userId} = loggedUser;
         res.status(201).json({email,username,authToken,userId})
     }catch(err){

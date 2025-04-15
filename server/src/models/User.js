@@ -35,7 +35,7 @@ const userSchema = new Schema({
         ref: 'Camera'
     }],
     cart: [{
-        types: Types.ObjectId,
+        type: Types.ObjectId,
         ref: 'Camera',
         price : {
             type: Number,

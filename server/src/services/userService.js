@@ -37,8 +37,6 @@ export default {
      async login(email,password){
         const user = await User.findOne({email});
 
-       
-
         if(!user){
             throw new Error('Incorrect email or password!');
         }
@@ -49,7 +47,7 @@ export default {
             throw new Error('Incorrect email or password!');
         }
 
-        const {accessToken, refreshToken} = this.generateToken(user);
+        const {accessToken, refreshToken} = await this.generateToken(user);
 
         const result = {
             email: user.email,
@@ -97,7 +95,7 @@ export default {
         const refreshToken = jwt.sign(payload,REFERSH_SECRET,{expiresIn: '7d'});
     
         await RefreshToken.create({token: refreshToken, userId: user.id})
-    
+        
         return {accessToken, refreshToken};
      },
       getOneUser(userId){

@@ -53,8 +53,8 @@ export default {
             email: user.email,
             username: user.username,
             authToken: accessToken,
-            userId: user._id,
             refreshToken,
+            userId: user._id,
         }
 
        

@@ -49,15 +49,17 @@ export default {
             throw new Error('Incorrect email or password!');
         }
 
-        const {accessToken, refreshToken} = this.generateToken(createdUser);
+        const {accessToken, refreshToken} = this.generateToken(user);
 
         const result = {
-            email: createdUser.email,
-            username: createdUser.username,
+            email: user.email,
+            username: user.username,
             authToken: accessToken,
-            userId: createdUser._id,
+            userId: user._id,
             refreshToken,
         }
+
+       
 
         return result
      },

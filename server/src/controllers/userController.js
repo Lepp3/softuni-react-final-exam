@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import userService from '../services/userService.js';
 import { auth } from '../../middlewares/authMiddleware.js';
-import RefreshToken from '../models/RefreshToken.js';
+
 
 
 

@@ -1,6 +1,6 @@
 
 TODO IN CLIENT
-- fix issue with login and register not tracking the state correctly and not invalidating refreshToken on logout (resulting in making infinite refresh tokens per user)
+- read jwt on client side to check expiration on accesstoken and refreshToken
 - implement cart page
 - implement purchase button on details page (tip forma da prashta request.body) QUANTITY + -
 - remove items from cart

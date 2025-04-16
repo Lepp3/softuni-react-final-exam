@@ -88,7 +88,7 @@ export const useRegister = () =>{
 
 
 export const useLogout = () =>{
-    const { authToken,userLogoutHandler } = useContext(UserContext);
+    const { authToken,refreshToken,userLogoutHandler } = useContext(UserContext);
     const effectRan = useRef();
 
     useEffect(()=>{
@@ -97,16 +97,19 @@ export const useLogout = () =>{
             return;
         }
 
+        console.log(refreshToken);
+
         effectRan.current = true;
         const options = {
             headers: {
-                'authorization': authToken
+                'authorization': authToken,
+                'refreshtoken': refreshToken,
             }
         };
         requester.get(`${baseUrl}/logout`,null,options)
         .then(()=>userLogoutHandler());
 
-    },[authToken,userLogoutHandler])
+    },[authToken,refreshToken,userLogoutHandler])
    
     return {
         isLoggedOut: !!authToken

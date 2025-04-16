@@ -45,11 +45,10 @@ userController.post('/login', async(req,res,next)=>{
 
 userController.get('/logout', auth, async (req,res)=>{
     const token = req.headers['authorization'];
-    
-
+    const refreshToken = req.headers['refreshtoken'];
 
     try{
-        await userService.invalidateToken(token);
+        await userService.invalidateToken(token,refreshToken);
 
 
         res.status(200).json('Logout successful!');

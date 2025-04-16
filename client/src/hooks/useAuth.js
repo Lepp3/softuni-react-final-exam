@@ -7,11 +7,13 @@ import requester from "../utils/requester";
 export default function useAuth(){
 const authData = useContext(UserContext);
 
+
     const requestWrapper = (method, url,data,options = {}) => {
         const optionWrapper = {
             ...options,
             headers: {
                 'authorization': authData.authToken,
+                'refreshToken': authData.refreshToken,
                 ...options.headers
             }
             

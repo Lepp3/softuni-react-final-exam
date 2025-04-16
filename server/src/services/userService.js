@@ -61,9 +61,10 @@ export default {
 
         return result
      },
-     async invalidateToken(token){
-        await RefreshToken.deleteOne({token:token});
-        return InvalidToken.create({token})
+     async invalidateToken(token,refreshToken){
+        await RefreshToken.deleteOne({token:refreshToken});
+        
+        return InvalidToken.create({token});
      },
      async refreshToken(refreshToken,expiredToken){
         const validToken = await RefreshToken.findOne({token: refreshToken});
@@ -73,7 +74,7 @@ export default {
 
         await this.invalidateToken(expiredToken);
 
-        const decodedToken = jwt.verify(validToken,REFERSH_SECRET);
+        const decodedToken = jwt.verify(refreshToken,REFERSH_SECRET);
         const payload = {
             id: decodedToken.id,
             username: decodedToken.username,

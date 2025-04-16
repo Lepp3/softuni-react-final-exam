@@ -22,7 +22,7 @@ export default {
        
         const createdUser = await User.create(userData);
 
-        const {accessToken, refreshToken} = this.generateToken(createdUser);
+        const {accessToken, refreshToken} = await this.generateToken(createdUser);
 
         const result = {
             email: createdUser.email,
@@ -61,7 +61,8 @@ export default {
 
         return result
      },
-     invalidateToken(token){
+     async invalidateToken(token){
+        await RefreshToken.deleteOne({token:token});
         return InvalidToken.create({token})
      },
      async refreshToken(refreshToken,expiredToken){

@@ -64,6 +64,7 @@ export default function Register() {
 
     try {
       const result = await register({ email, username, password });
+      console.log(result);
       userLoginHandler(result);
       navigate("/");
     } catch (err) {

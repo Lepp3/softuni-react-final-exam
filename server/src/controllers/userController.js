@@ -16,8 +16,8 @@ userController.post('/register', async (req,res,next)=>{
 
     try{
         const createdUser = await userService.register(userData);
-        const {email,username,authToken,userId} = createdUser;
-        res.status(201).json({email,username,authToken,userId});
+        const {email,username,authToken,refreshToken,userId} = createdUser;
+        res.status(201).json({email,username,authToken,refreshToken,userId});
     }catch(err){
         console.error(err.message);
         res.status(409);
@@ -45,13 +45,12 @@ userController.post('/login', async(req,res,next)=>{
 
 userController.get('/logout', auth, async (req,res)=>{
     const token = req.headers['authorization'];
-    const refreshToken = req.body.refreshToken;
+    
 
 
     try{
         await userService.invalidateToken(token);
 
-        await RefreshToken.deleteOne({token: refreshToken});
 
         res.status(200).json('Logout successful!');
     }catch(err){
